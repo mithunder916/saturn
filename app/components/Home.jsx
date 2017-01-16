@@ -16,8 +16,6 @@ class Home extends Component {
     return (
       <div>
         <h2>React + Redux Template</h2>
-        <p>CURRENT STATE: { example }</p>
-        <button onClick={this.props.update}>Update</button>
       </div>
     )
   }

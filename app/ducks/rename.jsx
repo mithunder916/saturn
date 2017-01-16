@@ -13,7 +13,7 @@ export const exampleUpdate = () => ({
 const reducer = (state = 'You have not updated.', action) => {
   switch (action.type){
     case UPDATE:
-        return 'You clicked update!'
+        return "you updated!"
     default:
         return state;
     }
