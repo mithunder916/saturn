@@ -16,3 +16,7 @@ body {
   width: 50%;
   /*height: 20%;*/
 }
+
+.synthContainer {
+  padding-left: 200px;
+}

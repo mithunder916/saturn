@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import rename from './rename'
+import reducer from './reducer'
 
 const rootReducer = combineReducers({
-  rename
+  reducer
 });
 
 export default rootReducer;

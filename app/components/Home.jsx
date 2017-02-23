@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Tone from 'tone';
-import { triggerDrums } from '../drums';
-import { realignView } from '../loop';
-import loop from '../loop.js';
+import { triggerDrums } from '../audio_scripts/drums';
+import loop, { realignView } from '../audio_scripts/loop';
 import { connect } from 'react-redux';
-import { exampleUpdate } from '../ducks/rename';
+import { exampleUpdate } from '../ducks/reducer';
 import { Synth } from './Synth.jsx';
+import { DrumMachine } from './DrumMachine.jsx';
+import { MyRecorder } from './Recorder.jsx';
+import { midiFunctionality } from '../audio_scripts/midi';
 
 class Home extends Component {
   constructor(props) {
@@ -75,6 +77,8 @@ class Home extends Component {
 
   componentDidMount(){
     this.nxLoad();
+    midiFunctionality();
+    // console.log(navigator)
   }
 
   componentDidUpdate(){
@@ -85,6 +89,8 @@ class Home extends Component {
 
   render() {
     const { example, update, clear } = this.props
+    // console.log("MASTER", Tone.Master.context)
+    // console.log("SECOND", Tone.Master.context.destination)
 
     return (
       <div>
@@ -95,6 +101,7 @@ class Home extends Component {
           label="Drum Machine"
           ref={(canvas) => {this.nxDefine(canvas)}}>
           </canvas>
+          <DrumMachine nxDefine={this.nxDefine}/>
         </div>
         <div className='controlButtons'>
           <button onClick={() => this.startSequence()}>START</button>
@@ -107,10 +114,8 @@ class Home extends Component {
           <option value="32">32</option>
         </select>
         <Synth nxDefine={this.nxDefine}/>
-        {/*<canvas data-type="slider" ref={(canvas) => {this.nxDefine(canvas)}}></canvas>
-        <canvas data-type="slider" ref={(canvas) => {this.nxDefine(canvas)}}></canvas>*/}
 
-
+        <MyRecorder />
       </div>
     )
   }

@@ -10,7 +10,13 @@ let polySynth = new Tone.PolySynth(6, Tone.Synth, {
     "partials" : [0, 2, 3, 4],
     // "type": "square"
   },
-  "volume": -18
+  "envelope": {
+    'attack': 0.8,
+    'decay': 0.1,
+    'sustain': 0.5,
+    'release': 3
+  },
+  "volume": -60
 }).toMaster();
 
 let polySynth2 = new Tone.PolySynth(6, Tone.Synth, {
@@ -18,7 +24,13 @@ let polySynth2 = new Tone.PolySynth(6, Tone.Synth, {
     "partials" : [0, 2, 3, 4],
     "type": "custom"
   },
-  "volume": -18
+  "envelope": {
+    'attack': 0.8,
+    'decay': 0.1,
+    'sustain': 0.5,
+    'release': 3
+  },
+  "volume": -60
 }).toMaster();
 
 let polySynth3 = new Tone.PolySynth(6, Tone.Synth, {
@@ -26,8 +38,16 @@ let polySynth3 = new Tone.PolySynth(6, Tone.Synth, {
     "partials" : [0, 2, 3, 4],
     "type": "square"
   },
-  "volume": -18
+  "envelope": {
+    'attack': 0.8,
+    'decay': 0.1,
+    'sustain': 0.5,
+    'release': 3
+  },
+  "volume": -60
 }).toMaster();
+
+let polySynths = [polySynth, polySynth2, polySynth3];
 
 class Synth extends Component {
   constructor(){
@@ -47,14 +67,10 @@ class Synth extends Component {
 
   playOrReleaseNote(note, action, visualKey){
     if (action === 'attack') {
-      polySynth.triggerAttack(note, null, 30);
-      polySynth2.triggerAttack(note, null, 30);
-      polySynth3.triggerAttack(note, null, 5);
+      polySynths.forEach(synth => synth.triggerAttack(note, null, 30));
     }
     else if (action === 'release') {
-      polySynth.triggerRelease(note);
-      polySynth2.triggerRelease(note);
-      polySynth3.triggerRelease(note);
+      polySynths.forEach(synth => synth.triggerRelease(note));
     }
 
     synth.toggle(synth.keys[visualKey]);
@@ -187,7 +203,6 @@ class Synth extends Component {
 
   render(){
     const { nxDefine } = this.props;
-
     // console.log(polySynth.voices)
     return (
       <div className='synthContainer'>
@@ -206,4 +221,4 @@ class Synth extends Component {
   }
 }
 
-export { polySynth, Synth };
+export { polySynth, polySynth2, polySynth3, Synth };

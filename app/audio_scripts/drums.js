@@ -3,7 +3,7 @@ import audioSettings from './audioSettings';
 
 Tone.Transport.bpm.value = 90;
 
-let drums = new Tone.MultiPlayer({
+export let drums = new Tone.MultiPlayer({
     urls : {
       "hihat0" : "../samples/hihat.wav",
       "hihat1" : "../samples/hihat2.wav",
@@ -15,7 +15,7 @@ let drums = new Tone.MultiPlayer({
       "kick1" : "../samples/kick2.wav",
       "kick2" : "../samples/kick3.wav"
     },
-    volume : -10,
+    volume : -48,
     fadeOut : 0.1,
   }).toMaster();
 

@@ -1,4 +1,4 @@
-// object within which settings are stored
+// refactor into redux store?
 let audioSettings = {
   hihat: "0",
   snare: "0",
