@@ -1,5 +1,6 @@
 import {polySynth, polySynth2, polySynth3} from '../components/Synth.jsx';
 let data, cmd, channel, type, note, midi, frequency, velocity;
+
 // request MIDI access
 export function midiFunctionality(){
   if (navigator.requestMIDIAccess) {
@@ -13,7 +14,7 @@ export function midiFunctionality(){
 
 // midi functions
 function onMIDISuccess(midiAccess) {
-    // when we get a succesful response, run this code
+    // when we get a successful response, run this code
     console.log('MIDI Access Object', midiAccess);
     midi = midiAccess;
     var inputs = midi.inputs.values();
@@ -29,7 +30,7 @@ function onMIDIFailure(e) {
 
 function onMIDIMessage(event) {
   data = event.data; // this gives us our [command/channel, note, velocity] data.
-  // console.log('MIDI data', data); // MIDI data [144, 63, 73]
+
   cmd = data[0] >> 4,
   channel = data[0] & 0xf,
   type = data[0] & 0xf0, // channel agnostic message type.
@@ -42,6 +43,7 @@ function onMIDIMessage(event) {
   // pressure / tilt on
   // pressure: 176, cmd 11:
   // bend: 224, cmd: 14
+  console.log('MIDI data', data); // MIDI data [144, 63, 73]
 
   switch (type) {
       case 144: // noteOn message

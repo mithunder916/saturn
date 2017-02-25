@@ -19,9 +19,9 @@ export let drums = new Tone.MultiPlayer({
     fadeOut : 0.1,
   }).toMaster();
 
+// save the values of the columns as a way of saving the loop
 export function triggerDrums(drumMatrix, time, col) {
     let column = drumMatrix.matrix[col];
-    // console.log('trigger drums', column)
     for (let i = 0; i < column.length; i++) {
       if (column[0] === 1) {
         drums.start('hihat' + audioSettings.hihat, time, 0, "16n", 0, audioSettings.hihatvol)

@@ -14,12 +14,14 @@ class Home extends Component {
     super(props);
     this.state = {
       columns: 16,
-      loop: loop
+      loop: loop,
+      patterns: []
     }
 
     this.nxDefine = this.nxDefine.bind(this);
     this.nxLoad = this.nxLoad.bind(this);
-    this.updateColumns = this.updateColumns.bind(this)
+    this.updateColumns = this.updateColumns.bind(this);
+    this.savePattern = this.savePattern.bind(this);
   }
 
   // called by refs' callbacks: sets nx attributes to DOM elements
@@ -52,6 +54,12 @@ class Home extends Component {
     // without this next line, multiple loops will trigger when the loop starts again; how to delete the old loops
     this.state.loop.stop();
     [drumMatrix].forEach(matrix => matrix.stop())
+  }
+
+  // add loadPattern; how to save data? by database? per user?
+  savePattern(){
+    this.setState({patterns: [...this.state.patterns, drumMatrix.matrix]});
+    console.log(this.state.patterns)
   }
 
   updateColumns(event){
@@ -101,11 +109,12 @@ class Home extends Component {
           label="Drum Machine"
           ref={(canvas) => {this.nxDefine(canvas)}}>
           </canvas>
-          <DrumMachine nxDefine={this.nxDefine}/>
+          {/*<DrumMachine nxDefine={this.nxDefine}/>*/}
         </div>
         <div className='controlButtons'>
           <button onClick={() => this.startSequence()}>START</button>
           <button onClick={() => this.stopSequence()}>STOP</button>
+          <button onClick={()=> this.savePattern()}>SAVE LOOP</button>
         </div>
         <select name="Subdivisions" value={this.state.columns} onChange={(e) => this.updateColumns(e)}>
           <option value="4">4</option>
