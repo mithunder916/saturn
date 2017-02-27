@@ -1,59 +1,22 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Tone from 'tone';
-// import { playOrReleaseNote } from '../synth_func';
+import Dial from './Dial.jsx';
+import { setWaveform, setAttack, setDecay, setSustain, setRelease } from '../ducks/synth_ducks.jsx';
 
 // is there a better place to declare this? I didn't want to put it on state bc changing it would cause a re-render
-let keysAllowed = {};
-
-let polySynth = new Tone.PolySynth(6, Tone.Synth, {
-  "oscillator" : {
-    "partials" : [0, 2, 3, 4],
-    // "type": "square"
-  },
-  "envelope": {
-    'attack': 0.8,
-    'decay': 0.1,
-    'sustain': 0.5,
-    'release': 3
-  },
-  "volume": -60
-}).toMaster();
-
-let polySynth2 = new Tone.PolySynth(6, Tone.Synth, {
-  "oscillator" : {
-    "partials" : [0, 2, 3, 4],
-    "type": "custom"
-  },
-  "envelope": {
-    'attack': 0.8,
-    'decay': 0.1,
-    'sustain': 0.5,
-    'release': 3
-  },
-  "volume": -60
-}).toMaster();
-
-let polySynth3 = new Tone.PolySynth(6, Tone.Synth, {
-  "oscillator" : {
-    "partials" : [0, 2, 3, 4],
-    "type": "square"
-  },
-  "envelope": {
-    'attack': 0.8,
-    'decay': 0.1,
-    'sustain': 0.5,
-    'release': 3
-  },
-  "volume": -60
-}).toMaster();
-
-let polySynths = [polySynth, polySynth2, polySynth3];
+let keysAllowed = {},
+    polySynth, polySynth2, polySynth3,
+    polySynths = [polySynth, polySynth2, polySynth3];
 
 class Synth extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
+
+    this.createSynths();
 
     this.playOrReleaseNote = this.playOrReleaseNote.bind(this);
+    this.createSynths = this.createSynths.bind(this);
   }
 
   componentDidMount(){
@@ -63,6 +26,56 @@ class Synth extends Component {
     //     "type": "square"
     //   }
     // })
+  }
+
+  componentDidUpdate(){
+    this.createSynths()
+  }
+
+  createSynths(){
+    const { oscillator1, oscillator2, oscillator3 } = this.props.synth;
+
+    polySynth = new Tone.PolySynth(6, Tone.Synth, {
+      "oscillator" : {
+        "partials" : [0, 2, 3, 4],
+        "type": oscillator1.shape
+      },
+      "envelope": {
+        'attack': oscillator1.attack,
+        'decay': oscillator1.decay,
+        'sustain': oscillator1.sustain,
+        'release': oscillator1.release
+      },
+      "volume": -60
+    }).toMaster();
+
+    polySynth2 = new Tone.PolySynth(6, Tone.Synth, {
+      "oscillator" : {
+        "partials" : [0, 2, 3, 4],
+        "type": oscillator2.shape
+      },
+      "envelope": {
+        'attack': oscillator2.attack,
+        'decay': oscillator2.decay,
+        'sustain': oscillator2.sustain,
+        'release': oscillator2.release
+      },
+      "volume": -60
+    }).toMaster();
+
+    polySynth3 = new Tone.PolySynth(6, Tone.Synth, {
+      "oscillator" : {
+        "partials" : [0, 2, 3, 4],
+        "type": oscillator3.shape
+      },
+      "envelope": {
+        'attack': oscillator3.attack,
+        'decay': oscillator3.decay,
+        'sustain': oscillator3.sustain,
+        'release': oscillator3.release
+      },
+      "volume": -60
+    }).toMaster();
   }
 
   playOrReleaseNote(note, action, visualKey){
@@ -202,8 +215,9 @@ class Synth extends Component {
   }
 
   render(){
+    console.log('SYNTH PROPS:', this.props)
+    console.log('2', polySynth2)
     const { nxDefine } = this.props;
-    // console.log(polySynth.voices)
     return (
       <div className='synthContainer'>
           <canvas
@@ -216,9 +230,25 @@ class Synth extends Component {
           onKeyDown={(e) => this.playNote(e)}
           onKeyUp={(e) => this.releaseNote(e)}>
         </canvas>
+        <Dial nxDefine={nxDefine} changeAttack={this.props.changeAttack} />
+        <button onClick={()=> this.props.changeAttack(5, 3)}>dummy</button>
       </div>
     )
   }
 }
+
+/* REDUX CONTAINER */
+
+const mapStateToProps = ({ synth }) => ({ synth })
+
+const mapDispatchToProps = dispatch => ({
+  changeAttack: (attack, oscNum) => dispatch(setAttack(attack, oscNum)),
+  changeDecay: (decay, oscNum) => dispatch(setDecay(decay, oscNum)),
+  changeSustain: (sustain, oscNum) => dispatch(setSustain(sustain, oscNum)),
+  changeRelease: (release, oscNum) => dispatch(setRelease(release, oscNum)),
+  changeWaveform: (shape, oscNum) => dispatch(setWaveform(shape, oscNum))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Synth);
 
 export { polySynth, polySynth2, polySynth3, Synth };

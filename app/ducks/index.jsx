@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import reducer from './reducer'
+import reducer from './reducer.jsx';
+import drumReducer from './drum_ducks.jsx';
+import {synthReducer} from './synth_ducks.jsx';
 
-const rootReducer = combineReducers({
-  reducer
+export default combineReducers({
+  reducer,
+  // drums: drumReducer,
+  synth: synthReducer
 });
-
-export default rootReducer;

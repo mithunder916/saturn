@@ -4,7 +4,7 @@ import { triggerDrums } from '../audio_scripts/drums';
 import loop, { realignView } from '../audio_scripts/loop';
 import { connect } from 'react-redux';
 import { exampleUpdate } from '../ducks/reducer';
-import { Synth } from './Synth.jsx';
+import Synth from './Synth.jsx';
 import { DrumMachine } from './DrumMachine.jsx';
 import { MyRecorder } from './Recorder.jsx';
 import { midiFunctionality } from '../audio_scripts/midi';
@@ -85,8 +85,8 @@ class Home extends Component {
 
   componentDidMount(){
     this.nxLoad();
+    // allows MIDI keyboard functionality
     midiFunctionality();
-    // console.log(navigator)
   }
 
   componentDidUpdate(){
@@ -97,7 +97,7 @@ class Home extends Component {
 
   render() {
     const { example, update, clear } = this.props
-    // console.log("MASTER", Tone.Master.context)
+    console.log("MASTER", Tone.Master.context)
     // console.log("SECOND", Tone.Master.context.destination)
 
     return (
