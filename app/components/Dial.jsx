@@ -2,24 +2,20 @@ import React, { Component } from 'react';
 
 export default class Dial extends Component {
 
-  // componentDidMount(){
-  //   document.querySelector('attackMod').addEventListener('mouseup', function(){
-  //     console.log('mouse up fired')
-  //   })
-  // }
-
+  // allows users to let go of dial off of the dial element and still update the synths
+  // calling .mouseup or .dispatchEvent does NOT work in React
   binder(event){
-    // console.log(document.body)
-    // console.log(event.target).bind
+    const { nxDefine, dispatcher, changeAllParams, module, param, id } = this.props
     event.persist()
-    event.target.addEventListener('mouseleave', function (){
-      document.body.addEventListener('mouseup', function () {
-        // console.log(event.target)
-        // event.target.mouseup()
-        event.target.dispatchEvent(new Event('mouseup'))
+    $(`#${id}`).bind('mouseleave', function (){
+      $('body').one('mouseup', function () {
+        changeAllParams(module, param, window[id].val.value)
+        dispatcher(window[id].val.value)
+        $(`#${id}`).unbind('mouseleave')
       })
     })
   }
+
   render(){
     const { nxDefine, dispatcher, changeAllParams, module, param, id } = this.props;
     return (
@@ -32,6 +28,7 @@ export default class Dial extends Component {
         onMouseUp={(e)=> {
           changeAllParams(module, param, window[id].val.value)
           dispatcher(window[id].val.value)
+          $(`#${id}`).unbind('mouseleave')
           }}>
         </canvas>
       </div>

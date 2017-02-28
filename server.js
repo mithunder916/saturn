@@ -12,6 +12,7 @@ app.use(morgan('dev'));
 // serve static files
 app.use('/public', express.static('public'));
 app.use('/samples', express.static('samples'));
+app.use('/jquery', express.static('node_modules/jquery/dist'));
 
 
 // request any page and receive index.html
