@@ -97,7 +97,7 @@ class Home extends Component {
 
   render() {
     const { example, update, clear } = this.props
-    console.log("MASTER", Tone.Master.context)
+    // console.log("MASTER", Tone.Master.context)
     // console.log("SECOND", Tone.Master.context.destination)
 
     return (

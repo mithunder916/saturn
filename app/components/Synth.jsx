@@ -12,39 +12,18 @@ let keysAllowed = {},
 class Synth extends Component {
   constructor(props){
     super(props)
-
-    this.createSynths();
-
-    this.playOrReleaseNote = this.playOrReleaseNote.bind(this);
-    this.createSynths = this.createSynths.bind(this);
-  }
-
-  componentDidMount(){
-    // use .set to change properties on the synths
-    // polySynth.set({
-    //   "oscillator": {
-    //     "type": "square"
-    //   }
-    // })
-  }
-
-  componentDidUpdate(){
-    this.createSynths()
-  }
-
-  createSynths(){
-    const { oscillator1, oscillator2, oscillator3 } = this.props.synth;
-
+    const { synth } = this.props;
+    // initializes Tone synths
     polySynth = new Tone.PolySynth(6, Tone.Synth, {
       "oscillator" : {
         "partials" : [0, 2, 3, 4],
-        "type": oscillator1.shape
+        "type": synth.oscillator1.shape
       },
       "envelope": {
-        'attack': oscillator1.attack,
-        'decay': oscillator1.decay,
-        'sustain': oscillator1.sustain,
-        'release': oscillator1.release
+        'attack': synth.attack,
+        'decay': synth.decay,
+        'sustain': synth.sustain,
+        'release': synth.release
       },
       "volume": -60
     }).toMaster();
@@ -52,13 +31,13 @@ class Synth extends Component {
     polySynth2 = new Tone.PolySynth(6, Tone.Synth, {
       "oscillator" : {
         "partials" : [0, 2, 3, 4],
-        "type": oscillator2.shape
+        "type": synth.oscillator2.shape
       },
       "envelope": {
-        'attack': oscillator2.attack,
-        'decay': oscillator2.decay,
-        'sustain': oscillator2.sustain,
-        'release': oscillator2.release
+        'attack': synth.attack,
+        'decay': synth.decay,
+        'sustain': synth.sustain,
+        'release': synth.release
       },
       "volume": -60
     }).toMaster();
@@ -66,16 +45,101 @@ class Synth extends Component {
     polySynth3 = new Tone.PolySynth(6, Tone.Synth, {
       "oscillator" : {
         "partials" : [0, 2, 3, 4],
-        "type": oscillator3.shape
+        "type": synth.oscillator3.shape
       },
       "envelope": {
-        'attack': oscillator3.attack,
-        'decay': oscillator3.decay,
-        'sustain': oscillator3.sustain,
-        'release': oscillator3.release
+        'attack': synth.attack,
+        'decay': synth.decay,
+        'sustain': synth.sustain,
+        'release': synth.release
       },
       "volume": -60
     }).toMaster();
+
+    polySynths = [polySynth, polySynth2, polySynth3]
+
+    this.playOrReleaseNote = this.playOrReleaseNote.bind(this);
+    this.updateSynths = this.updateSynths.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps){
+    // some easy way to diff props
+    // console.log(this.props)
+    // console.log("NEXT PROPS:", nextProps)
+  }
+
+  // updates synths with current store params
+  componentDidUpdate(){
+    // this.updateSynths()
+  }
+
+  updateSynths(){
+    let time3 = performance.now()
+    const { synth } = this.props;
+    // call set here
+    polySynth.set({
+      "oscillator" : {
+        "partials" : [0, 2, 3, 4],
+        "type": synth.oscillator1.shape
+      },
+      "envelope": {
+        'attack': synth.attack,
+        'decay': synth.decay,
+        'sustain': synth.sustain,
+        'release': synth.release
+      },
+      "volume": -60
+    })
+
+    polySynth2.set({
+      "oscillator" : {
+        "partials" : [0, 2, 3, 4],
+        "type": synth.oscillator2.shape
+      },
+      "envelope": {
+        'attack': synth.attack,
+        'decay': synth.decay,
+        'sustain': synth.sustain,
+        'release': synth.release
+      },
+      "volume": -60
+    })
+
+    polySynth3.set({
+      "oscillator" : {
+        "partials" : [0, 2, 3, 4],
+        "type": synth.oscillator3.shape
+      },
+      "envelope": {
+        'attack': synth.attack,
+        'decay': synth.decay,
+        'sustain': synth.sustain,
+        'release': synth.release
+      },
+      "volume": -60
+    })
+
+    polySynths = [polySynth, polySynth2, polySynth3]
+    let time4 = performance.now()
+    console.log('TIME', time4 - time3);
+  }
+
+  // module: oscillator, envelope (might not be necessary)
+  // param: attack, type, partials
+  // value: number, etc. depends on param
+  changeAllParams(module, param, value){
+    // let time1 = performance.now();
+    polySynths.forEach(synth => synth.set({[module]: {[param]: value}}))
+    // console.log(polySynths)
+    // let time2 = performance.now()
+    // console.log('TIME', time2 - time1);
+  }
+
+  // for controls that only modify one synth
+  changeParam(synthNum, module, param, value){
+    if (synthNum === 1) polySynth.set({[module]: {[param]: value}})
+    else if (synthNum === 2) polySynth2.set({[module]: {[param]: value}})
+    else polySynth3.set({[module]: {[param]: value}})
   }
 
   playOrReleaseNote(note, action, visualKey){
@@ -215,8 +279,6 @@ class Synth extends Component {
   }
 
   render(){
-    console.log('SYNTH PROPS:', this.props)
-    console.log('2', polySynth2)
     const { nxDefine } = this.props;
     return (
       <div className='synthContainer'>
@@ -230,8 +292,31 @@ class Synth extends Component {
           onKeyDown={(e) => this.playNote(e)}
           onKeyUp={(e) => this.releaseNote(e)}>
         </canvas>
-        <Dial nxDefine={nxDefine} changeAttack={this.props.changeAttack} />
-        <button onClick={()=> this.props.changeAttack(5, 3)}>dummy</button>
+        <Dial nxDefine={nxDefine}
+              dispatcher={this.props.changeAttack}
+              changeAllParams={this.changeAllParams}
+              module='envelope'
+              param='attack'
+              id='attackMod' />
+        <Dial nxDefine={nxDefine}
+              dispatcher={this.props.changeDecay}
+              changeAllParams={this.changeAllParams}
+              module='envelope'
+              param='decay'
+              id='decayMod' />
+        <Dial nxDefine={nxDefine}
+              dispatcher={this.props.changeSustain}
+              changeAllParams={this.changeAllParams}
+              module='envelope'
+              param='sustain'
+              id='sustainMod' />
+        <Dial nxDefine={nxDefine}
+              dispatcher={this.props.changeRelease}
+              changeAllParams={this.changeAllParams}
+              module='envelope'
+              param='release'
+              id='releaseMod' />
+        <button onClick={()=> this.changeParam(2, 'oscillator', 'type', 'square')}>dummy</button>
       </div>
     )
   }
@@ -242,10 +327,10 @@ class Synth extends Component {
 const mapStateToProps = ({ synth }) => ({ synth })
 
 const mapDispatchToProps = dispatch => ({
-  changeAttack: (attack, oscNum) => dispatch(setAttack(attack, oscNum)),
-  changeDecay: (decay, oscNum) => dispatch(setDecay(decay, oscNum)),
-  changeSustain: (sustain, oscNum) => dispatch(setSustain(sustain, oscNum)),
-  changeRelease: (release, oscNum) => dispatch(setRelease(release, oscNum)),
+  changeAttack: attack => dispatch(setAttack(attack)),
+  changeDecay: decay => dispatch(setDecay(decay)),
+  changeSustain: sustain => dispatch(setSustain(sustain)),
+  changeRelease: release => dispatch(setRelease(release)),
   changeWaveform: (shape, oscNum) => dispatch(setWaveform(shape, oscNum))
 })
 
