@@ -5,7 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack -w --progress & nodemon server.js"
+    "start": "webpack -w --progress & nodemon server.js",
+    "build-css": "node-sass -w public/sass/layout.scss -o public/style"
   },
   "author": "Mithun Selvaratnam",
   "license": "ISC",

@@ -282,6 +282,32 @@ class Synth extends Component {
     const { nxDefine } = this.props;
     return (
       <div className='synthContainer'>
+        <div className='envelopeContainer'>
+          <Dial nxDefine={nxDefine}
+                dispatcher={this.props.changeAttack}
+                changeAllParams={this.changeAllParams}
+                module='envelope'
+                param='attack'
+                id='attackMod' />
+          <Dial nxDefine={nxDefine}
+                dispatcher={this.props.changeDecay}
+                changeAllParams={this.changeAllParams}
+                module='envelope'
+                param='decay'
+                id='decayMod' />
+          <Dial nxDefine={nxDefine}
+                dispatcher={this.props.changeSustain}
+                changeAllParams={this.changeAllParams}
+                module='envelope'
+                param='sustain'
+                id='sustainMod' />
+          <Dial nxDefine={nxDefine}
+                dispatcher={this.props.changeRelease}
+                changeAllParams={this.changeAllParams}
+                module='envelope'
+                param='release'
+                id='releaseMod' />
+        </div>
           <canvas
           data-type="keyboard"
           id="synth"
@@ -292,30 +318,6 @@ class Synth extends Component {
           onKeyDown={(e) => this.playNote(e)}
           onKeyUp={(e) => this.releaseNote(e)}>
         </canvas>
-        <Dial nxDefine={nxDefine}
-              dispatcher={this.props.changeAttack}
-              changeAllParams={this.changeAllParams}
-              module='envelope'
-              param='attack'
-              id='attackMod' />
-        <Dial nxDefine={nxDefine}
-              dispatcher={this.props.changeDecay}
-              changeAllParams={this.changeAllParams}
-              module='envelope'
-              param='decay'
-              id='decayMod' />
-        <Dial nxDefine={nxDefine}
-              dispatcher={this.props.changeSustain}
-              changeAllParams={this.changeAllParams}
-              module='envelope'
-              param='sustain'
-              id='sustainMod' />
-        <Dial nxDefine={nxDefine}
-              dispatcher={this.props.changeRelease}
-              changeAllParams={this.changeAllParams}
-              module='envelope'
-              param='release'
-              id='releaseMod' />
         <button onClick={()=> this.changeParam(2, 'oscillator', 'type', 'square')}>dummy</button>
       </div>
     )

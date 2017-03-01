@@ -1,0 +1,32 @@
+* {
+  font-family: "open sans";
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #2E005C;
+}
+
+#drumMatrix {
+  width: 60%;
+  height: 40%;
+}
+
+#synth {
+  width: 50%;
+  /*height: 20%;*/
+}
+
+.synthContainer {
+  padding-left: 200px;
+}
+
+.envelopeContainer {
+}
+
+.dial {
+  display: inline;
+  canvas {
+    width: 100px;
+  }
+}

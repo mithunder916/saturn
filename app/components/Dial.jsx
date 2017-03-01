@@ -19,7 +19,7 @@ export default class Dial extends Component {
   render(){
     const { nxDefine, dispatcher, changeAllParams, module, param, id } = this.props;
     return (
-      <div>
+      <div className='dial'>
         <canvas
         id={id}
         data-type="dial"
