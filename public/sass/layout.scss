@@ -18,10 +18,15 @@ body {
 }
 
 .synthContainer {
-  padding-left: 200px;
+  padding-left: 200px;;
+}
+
+.waveFormSelectors {
+  display: inline;
 }
 
 .envelopeContainer {
+  display: inline;
 }
 
 .dial {
@@ -29,4 +34,8 @@ body {
   canvas {
     width: 100px;
   }
+}
+
+#synthVolume {
+  display: inline;
 }

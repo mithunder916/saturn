@@ -10,7 +10,7 @@ export const exampleUpdate = () => ({
 
 /* -------------       REDUCER     ------------------- */
 
-const reducer = (state = 'You have not updated.', action) => {
+const reducer = (state = '', action) => {
   switch (action.type){
     case UPDATE:
         return "you updated!"

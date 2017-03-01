@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Tone from 'tone';
 import Dial from './Dial.jsx';
-import { setWaveform, setAttack, setDecay, setSustain, setRelease } from '../ducks/synth_ducks.jsx';
+import Slider from './Slider.jsx';
+import { Selector } from './Selector.jsx';
+import { setWaveform, setAttack, setDecay, setSustain, setRelease, setFrequency, setResonance, setMasterVolume } from '../ducks/synth_ducks.jsx';
 
 // is there a better place to declare this? I didn't want to put it on state bc changing it would cause a re-render
 let keysAllowed = {},
-    polySynth, polySynth2, polySynth3,
+    polySynth, polySynth2, polySynth3, synthFilter, synthGain,
     polySynths = [polySynth, polySynth2, polySynth3];
 
 class Synth extends Component {
@@ -26,7 +28,7 @@ class Synth extends Component {
         'release': synth.release
       },
       "volume": -60
-    }).toMaster();
+    });
 
     polySynth2 = new Tone.PolySynth(6, Tone.Synth, {
       "oscillator" : {
@@ -40,7 +42,7 @@ class Synth extends Component {
         'release': synth.release
       },
       "volume": -60
-    }).toMaster();
+    });
 
     polySynth3 = new Tone.PolySynth(6, Tone.Synth, {
       "oscillator" : {
@@ -54,25 +56,26 @@ class Synth extends Component {
         'release': synth.release
       },
       "volume": -60
-    }).toMaster();
+    });
 
     polySynths = [polySynth, polySynth2, polySynth3]
 
+    synthFilter = new Tone.Filter({
+      type: 'highpass',
+      frequency: synth.frequency,
+      rolloff: -12,
+      Q: synth.resonance
+    })
+
+    synthGain = new Tone.Volume(1)
+
+    polySynths.forEach(synth => synth.chain(synthFilter, synthGain, Tone.Master));
+
     this.playOrReleaseNote = this.playOrReleaseNote.bind(this);
-    this.updateSynths = this.updateSynths.bind(this);
+    this.changeRouter = this.changeRouter.bind(this);
   }
 
-  componentWillReceiveProps(nextProps){
-    // some easy way to diff props
-    // console.log(this.props)
-    // console.log("NEXT PROPS:", nextProps)
-  }
-
-  // updates synths with current store params
-  componentDidUpdate(){
-    // this.updateSynths()
-  }
-
+  // work into loadPreset functionality?
   updateSynths(){
     let time3 = performance.now()
     const { synth } = this.props;
@@ -127,7 +130,7 @@ class Synth extends Component {
   // module: oscillator, envelope (might not be necessary)
   // param: attack, type, partials
   // value: number, etc. depends on param
-  changeAllParams(module, param, value){
+  changeAllOsc(module, param, value){
     // let time1 = performance.now();
     polySynths.forEach(synth => synth.set({[module]: {[param]: value}}))
     // console.log(polySynths)
@@ -135,11 +138,39 @@ class Synth extends Component {
     // console.log('TIME', time2 - time1);
   }
 
-  // for controls that only modify one synth
-  changeParam(synthNum, module, param, value){
+  // for controls that only modify one synth; NOT CURRENTLY USING, possible unneeded
+  changeOneOsc(synthNum, module, param, value){
     if (synthNum === 1) polySynth.set({[module]: {[param]: value}})
     else if (synthNum === 2) polySynth2.set({[module]: {[param]: value}})
     else polySynth3.set({[module]: {[param]: value}})
+  }
+
+  // param: frequency, Q, or type(hi/lowpass, etc.)
+  changeFilter(param, value){
+    // synthFilter.set({[module]: value})
+    synthFilter[param].value = value
+    // console.log(synthFilter)
+  }
+
+  changeVolume(value){
+    synthGain.volume.value = value * 5;
+    // console.log(synthGain)
+  }
+
+  changeOscWave(event){
+    if (event.target.name === 'Osc1') polySynth.set({oscillator: {type: event.target.value}});
+    else if (event.target.name === 'Osc2') polySynth2.set({oscillator: {type: event.target.value}});
+    else if (event.target.name === 'Osc3') polySynth3.set({oscillator: {type: event.target.value}})
+    // console.log(polySynths)
+  }
+
+  // based on type, calls a different function
+  // arguments are sequenced in order of most -> least essential, since they will be spread later on
+  changeRouter(value, type, param, module, synthNum){
+    if (type === 'multi') this.changeAllOsc(module, param, value);
+    else if (type === 'single') this.changeOneOsc(synthNum, module, param, value);
+    else if (type === 'filter') this.changeFilter(param, value);
+    else if (type === 'volume') this.changeVolume(value)
   }
 
   playOrReleaseNote(note, action, visualKey){
@@ -149,7 +180,6 @@ class Synth extends Component {
     else if (action === 'release') {
       polySynths.forEach(synth => synth.triggerRelease(note));
     }
-
     synth.toggle(synth.keys[visualKey]);
   }
 
@@ -278,35 +308,71 @@ class Synth extends Component {
     }
   }
 
+// refactor ASDR into multislider?
+// refactor by mapping through arrays for Selectors and Dials?
   render(){
     const { nxDefine } = this.props;
     return (
       <div className='synthContainer'>
+        <div className='waveFormSelectors'>
+          <Selector
+          name='Osc1'
+          changeOption={this.changeOscWave}
+          options={['square', 'triangle', 'sawtooth', 'sine', 'custom']}
+          defaultValue={'triangle'}
+          dispatcher={this.props.changeWaveform} />
+          <Selector
+          name='Osc2'
+          changeOption={this.changeOscWave}
+          options={['square', 'triangle', 'sawtooth', 'sine', 'custom']}
+          defaultValue={'custom'}
+          dispatcher={this.props.changeWaveform} />
+          <Selector
+          name='Osc3'
+          changeOption={this.changeOscWave}
+          options={['square', 'triangle', 'sawtooth', 'sine', 'custom']}
+          defaultValue={'square'}
+          dispatcher={this.props.changeWaveform} />
+        </div>
         <div className='envelopeContainer'>
           <Dial nxDefine={nxDefine}
                 dispatcher={this.props.changeAttack}
-                changeAllParams={this.changeAllParams}
-                module='envelope'
-                param='attack'
+                changeRouter={this.changeRouter}
+                args={['multi', 'attack', 'envelope']}
+                range={[0.3, 4]}
                 id='attackMod' />
           <Dial nxDefine={nxDefine}
                 dispatcher={this.props.changeDecay}
-                changeAllParams={this.changeAllParams}
-                module='envelope'
-                param='decay'
+                changeRouter={this.changeRouter}
+                args={['multi', 'decay', 'envelope']}
+                range={[0.3, 4]}
                 id='decayMod' />
           <Dial nxDefine={nxDefine}
                 dispatcher={this.props.changeSustain}
-                changeAllParams={this.changeAllParams}
-                module='envelope'
-                param='sustain'
+                changeRouter={this.changeRouter}
+                args={['multi', 'sustain', 'envelope']}
+                range={[0.1, 1]}
                 id='sustainMod' />
           <Dial nxDefine={nxDefine}
                 dispatcher={this.props.changeRelease}
-                changeAllParams={this.changeAllParams}
-                module='envelope'
-                param='release'
+                changeRouter={this.changeRouter}
+                args={['multi', 'release', 'envelope']}
+                range={[0.3, 8]}
                 id='releaseMod' />
+        </div>
+        <div className='filterContainer'>
+          <Dial nxDefine={nxDefine}
+                dispatcher={this.props.changeFrequency}
+                changeRouter={this.changeRouter}
+                args={['filter', 'frequency']}
+                range={[100, 1200]}
+                id='frequencyMod' />
+          <Dial nxDefine={nxDefine}
+                dispatcher={this.props.changeResonance}
+                changeRouter={this.changeRouter}
+                args={['filter', 'Q']}
+                range={[0.1, 6]}
+                id='resonanceMod' />
         </div>
           <canvas
           data-type="keyboard"
@@ -318,7 +384,11 @@ class Synth extends Component {
           onKeyDown={(e) => this.playNote(e)}
           onKeyUp={(e) => this.releaseNote(e)}>
         </canvas>
-        <button onClick={()=> this.changeParam(2, 'oscillator', 'type', 'square')}>dummy</button>
+        <Slider nxDefine={nxDefine}
+                dispatcher={this.props.changeMasterVolume}
+                changeRouter={this.changeRouter}
+                args={['volume']}
+                id='synthVolume' />
       </div>
     )
   }
@@ -333,7 +403,10 @@ const mapDispatchToProps = dispatch => ({
   changeDecay: decay => dispatch(setDecay(decay)),
   changeSustain: sustain => dispatch(setSustain(sustain)),
   changeRelease: release => dispatch(setRelease(release)),
-  changeWaveform: (shape, oscNum) => dispatch(setWaveform(shape, oscNum))
+  changeWaveform: (shape, oscNum) => dispatch(setWaveform(shape, oscNum)),
+  changeFrequency: frequency => dispatch(setFrequency(frequency)),
+  changeResonance: resonance => dispatch(setResonance(resonance)),
+  changeMasterVolume: volume => dispatch(setMasterVolume(volume))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Synth);

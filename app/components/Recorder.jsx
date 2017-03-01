@@ -32,11 +32,11 @@ export class MyRecorder extends Component {
     recorder = new Recorder(Tone.Master, {
       bufferLen: 16384
     })
-    console.log(recorder, Tone.Master.context.sampleRate)
+    // console.log(recorder, Tone.Master.context.sampleRate)
   }
 
   render(){
-    recorder && console.log(recorder);
+    // recorder && console.log(recorder);
     return (
       <div>
         <button id='recordButton' onClick={()=> this.startRecording()}>Record</button>

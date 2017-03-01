@@ -7,6 +7,7 @@ import { exampleUpdate } from '../ducks/reducer';
 import Synth from './Synth.jsx';
 import { DrumMachine } from './DrumMachine.jsx';
 import { MyRecorder } from './Recorder.jsx';
+import { Selector } from './Selector.jsx';
 import { midiFunctionality } from '../audio_scripts/midi';
 
 class Home extends Component {
@@ -67,11 +68,12 @@ class Home extends Component {
     this.stopSequence();
     this.setState({columns: event.target.value});
     this.newLoop(event.target.value);
-    // console.log(this.state.columns) this executes before setState is finished, I think
+    // console.log(this.state.columns) this executes before setState is finished
   }
 
   newLoop(cols){
     // can't adjust events array inside existing loop. must create a new one?
+    // refactor using .set?
     this.setState({loop: new Tone.Sequence(function(time, col) {
       // console.log('COL', col)
       triggerDrums(drumMatrix, time, col);
@@ -116,20 +118,24 @@ class Home extends Component {
           <button onClick={() => this.stopSequence()}>STOP</button>
           <button onClick={()=> this.savePattern()}>SAVE LOOP</button>
         </div>
-        <select name="Subdivisions" value={this.state.columns} onChange={(e) => this.updateColumns(e)}>
-          <option value="4">4</option>
-          <option value="8">8</option>
-          <option value="16">16</option>
-          <option value="32">32</option>
-        </select>
+        <Selector
+        name='Subdivision'
+        value={this.state.columns}
+        changeOption={(e)=>this.updateColumns(e)}
+        options={['4','8','16','24','32']} />
         <Synth nxDefine={this.nxDefine}/>
-
         <MyRecorder />
       </div>
     )
   }
 }
 
+        /*<select name="Subdivisions" value={this.state.columns} onChange={(e) => this.updateColumns(e)}>
+          <option value="4">4</option>
+          <option value="8">8</option>
+          <option value="16">16</option>
+          <option value="32">32</option>
+        </select>
 /* REDUX CONTAINER */
 
 const mapStateToProps = ({ example }) => ({ example })

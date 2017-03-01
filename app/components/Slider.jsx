@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 
-export default class Dial extends Component {
+export default class Slider extends Component {
 
-  // allows users to let go of dial off of the dial element and still update the synths
-  // calling .mouseup or .dispatchEvent does NOT work in React
   binder(event){
     const { dispatcher, changeRouter, id, args } = this.props
     // event.persist()
@@ -16,19 +14,13 @@ export default class Dial extends Component {
     })
   }
 
-  // write wrapper function that calls changeRouter and dispatcher
-  // do some type of spread operation - pass an array of args as a prop, then spread them in the input to changeRouter
-
-  // also pass min and max values
   render(){
-    const { nxDefine, dispatcher, changeRouter, id, args, range } = this.props;
+    const { nxDefine, dispatcher, changeRouter, id, args } = this.props;
     return (
-      <div className='dial'>
+      <div>
         <canvas
         id={id}
-        data-type="dial"
-        min={range[0]}
-        max={range[1]}
+        data-type="slider"
         ref={canvas => {nxDefine(canvas)}}
         onMouseDown={(e)=> this.binder(e)}
         onMouseUp={(e)=> {
