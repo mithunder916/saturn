@@ -3,11 +3,11 @@ import Tone from 'tone';
 import { triggerDrums } from '../audio_scripts/drums';
 import loop, { realignView } from '../audio_scripts/loop';
 import { connect } from 'react-redux';
-import { exampleUpdate } from '../ducks/reducer';
 import Synth from './Synth.jsx';
 import { DrumMachine } from './DrumMachine.jsx';
 import { MyRecorder } from './Recorder.jsx';
 import { Selector } from './Selector.jsx';
+import Login from './Login.jsx';
 import { midiFunctionality } from '../audio_scripts/midi';
 
 class Home extends Component {
@@ -100,12 +100,12 @@ class Home extends Component {
   }
 
   render() {
-    const { example, update, clear } = this.props
     // console.log("MASTER", Tone.Master.context)
     // console.log("SECOND", Tone.Master.context.destination)
 
     return (
       <div>
+        <Login />
         <div className='drumContainer'>
           <canvas
           data-type="matrix"
@@ -140,10 +140,11 @@ class Home extends Component {
         </select>
 /* REDUX CONTAINER */
 
-const mapStateToProps = ({ example }) => ({ example })
+// const mapStateToProps = ({ }) => ({ })
 
-const mapDispatchToProps = dispatch => ({
-  update: () => dispatch(exampleUpdate())
-})
+// const mapDispatchToProps = dispatch => ({
+// })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+// export default connect(mapStateToProps, mapDispatchToProps)(Home);
+
+export default Home;
