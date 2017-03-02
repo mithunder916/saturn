@@ -28,25 +28,31 @@ body {
   width: 100%; }
 
 .waveSelectors {
-  padding: 2% 12%; }
-  .waveSelectors select {
-    width: 80%; }
+  padding: 2% 6%;
+  width: 100%; }
 
 .oscillatorContainer {
   display: inline-block;
   border-style: solid;
   border-width: small;
   border-color: #ffffff; }
+  .oscillatorContainer .selector {
+    width: 100%; }
+    .oscillatorContainer .selector select {
+      padding: 0; }
   .oscillatorContainer .multislider {
-    width: 80%;
-    margin: 1%;
-    padding: 0 12%; }
+    display: inline-block;
+    padding: 2% 6%; }
+    .oscillatorContainer .multislider canvas {
+      width: 71%;
+      margin: 0 auto; }
 
 .filterContainer {
   border-style: solid;
   border-width: small;
   border-color: #ffffff;
-  display: inline-block; }
+  display: inline-block;
+  vertical-align: top; }
 
 .filterText {
   text-align: center; }

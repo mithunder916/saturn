@@ -40,10 +40,10 @@ body {
 .waveSelectors {
   // display: inline-block;
   // margin: 1%;
-  padding: 2% 12%;
-  // width: 30%;
+  padding: 2% 6%;
+  width: 100%;
   select{
-    width: 80%;
+    // width: 80%;
   }
 }
 
@@ -52,10 +52,22 @@ body {
   border-style: solid;
   border-width: small;
   border-color: #ffffff;
+  .selector {
+    width: 100%;
+    select {
+      padding: 0;
+    }
+  }
   .multislider {
-    width: 80%;
-    margin: 1%;
-    padding: 0 12%;
+    display: inline-block;
+    // width: 80%;
+    padding: 2% 6%;
+    canvas {
+      width: 71%;
+      margin: 0 auto;
+    }
+    // margin: 1%;
+    // padding: 0 20%;
     // margin: 0 auto;
     // display: block;
     // width: 80%;
@@ -67,6 +79,7 @@ body {
   border-width: small;
   border-color: #ffffff;
   display: inline-block;
+  vertical-align: top;
   // width: 80%;
   .dial {
     // padding-top: 20%;

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // dispatcher is an optional prop for selectors that change a value stored in redux store (synth params)
 export const Selector = props => {
   return (
-    <div>
+    <div className='selector'>
       <select
       name={props.name}
       value={props.value}
