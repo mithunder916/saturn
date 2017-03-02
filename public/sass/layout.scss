@@ -1,46 +1,118 @@
 * {
   font-family: "open sans";
   box-sizing: border-box;
+  color: #CC3BA7;
 }
 
 body {
   background-color: #2E005C;
 }
 
+.drumContainer {
+  margin: 0 auto;
+  display: block;
+  width: 75%;
+}
 #drumMatrix {
-  width: 60%;
+  width: 100%;
   height: 40%;
 }
 
-#synth {
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  /*height: 20%;*/
-}
-
+// holds keyboard AND knobs/sliders
 .synthContainer {
-  // padding-left: 200px;
   border-style: solid;
   border-width: small;
   border-color: #000000;
+  background-color: #000000;
+  width: 80%;
+  // height: 50%;
+  display: block;
+  margin: 0 auto;
 }
 
-.waveFormSelectors {
-  display: inline;
+// just knobs and sliders
+.synthPanel {
+  width: 100%;
 }
 
-.envelopeContainer {
-  display: inline;
-}
-
-.dial {
-  display: inline;
-  canvas {
-    width: 100px;
+// just using inline didn't work
+// padding for selectors and multislider must be the same
+.waveSelectors {
+  // display: inline-block;
+  // margin: 1%;
+  padding: 2% 12%;
+  // width: 30%;
+  select{
+    width: 80%;
   }
 }
 
-#synthVolume {
-  display: inline;
+.oscillatorContainer {
+  display: inline-block;
+  border-style: solid;
+  border-width: small;
+  border-color: #ffffff;
+  .multislider {
+    width: 80%;
+    margin: 1%;
+    padding: 0 12%;
+    // margin: 0 auto;
+    // display: block;
+    // width: 80%;
+  }
 }
+
+.filterContainer {
+  border-style: solid;
+  border-width: small;
+  border-color: #ffffff;
+  display: inline-block;
+  // width: 80%;
+  .dial {
+    // padding-top: 20%;
+  }
+}
+
+.filterText {
+  text-align: center;
+
+}
+
+.envelopeContainer {
+  border-style: solid;
+  border-width: small;
+  border-color: #ffffff;
+  display: inline-block;
+}
+
+
+.volumeContainer {
+  border-style: solid;
+  border-width: small;
+  border-color: #ffffff;
+  display: inline-block;
+}
+
+.dial {
+  display: inline-block;
+   // this nested selector functionality doesn't seem to work the same as putting the width attribute sdirectly on the canvas in JSX
+  // because the code below changes the canvas DOMnode that contains the dial, while doing it in JSX changes the actual dial as well as the canvas
+  // but JSX/nexusUI only understands px;
+  canvas {
+    // width: 30%;
+
+  }
+}
+
+// #synthVolume {
+//   display: inline;
+// }
+
+// margin left/right auto + display:block centers synth
+#synth {
+  margin: 0 auto;
+  width: 80%;
+  display: block;
+  /*height: 20%;*/
+}
+

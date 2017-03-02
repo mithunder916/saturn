@@ -29,6 +29,7 @@ export default class Dial extends Component {
         data-type="dial"
         min={range[0]}
         max={range[1]}
+        label={this.props.label ? this.props.label : null}
         ref={canvas => {nxDefine(canvas)}}
         onMouseDown={(e)=> this.binder(e)}
         onMouseUp={(e)=> {

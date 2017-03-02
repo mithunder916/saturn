@@ -114,17 +114,17 @@ class Home extends Component {
           ref={(canvas) => {this.nxDefine(canvas)}}>
           </canvas>
           {/*<DrumMachine nxDefine={this.nxDefine}/>*/}
+          <div className='controlButtons'>
+            <button onClick={() => this.startSequence()}>START</button>
+            <button onClick={() => this.stopSequence()}>STOP</button>
+            <button onClick={()=> this.savePattern()}>SAVE LOOP</button>
+          </div>
+          <Selector
+          name='Subdivision'
+          value={this.state.columns}
+          changeOption={(e)=>this.updateColumns(e)}
+          options={['4','8','16','24','32']} />
         </div>
-        <div className='controlButtons'>
-          <button onClick={() => this.startSequence()}>START</button>
-          <button onClick={() => this.stopSequence()}>STOP</button>
-          <button onClick={()=> this.savePattern()}>SAVE LOOP</button>
-        </div>
-        <Selector
-        name='Subdivision'
-        value={this.state.columns}
-        changeOption={(e)=>this.updateColumns(e)}
-        options={['4','8','16','24','32']} />
         <Synth nxDefine={this.nxDefine}/>
         <MyRecorder />
       </div>

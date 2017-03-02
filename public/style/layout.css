@@ -1,35 +1,73 @@
 * {
   font-family: "open sans";
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  color: #CC3BA7; }
 
 body {
   background-color: #2E005C; }
 
-#drumMatrix {
-  width: 60%;
-  height: 40%; }
+.drumContainer {
+  margin: 0 auto;
+  display: block;
+  width: 75%; }
 
-#synth {
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  /*height: 20%;*/ }
+#drumMatrix {
+  width: 100%;
+  height: 40%; }
 
 .synthContainer {
   border-style: solid;
   border-width: small;
-  border-color: #000000; }
+  border-color: #000000;
+  background-color: #000000;
+  width: 80%;
+  display: block;
+  margin: 0 auto; }
 
-.waveFormSelectors {
-  display: inline; }
+.synthPanel {
+  width: 100%; }
+
+.waveSelectors {
+  padding: 2% 12%; }
+  .waveSelectors select {
+    width: 80%; }
+
+.oscillatorContainer {
+  display: inline-block;
+  border-style: solid;
+  border-width: small;
+  border-color: #ffffff; }
+  .oscillatorContainer .multislider {
+    width: 80%;
+    margin: 1%;
+    padding: 0 12%; }
+
+.filterContainer {
+  border-style: solid;
+  border-width: small;
+  border-color: #ffffff;
+  display: inline-block; }
+
+.filterText {
+  text-align: center; }
 
 .envelopeContainer {
-  display: inline; }
+  border-style: solid;
+  border-width: small;
+  border-color: #ffffff;
+  display: inline-block; }
+
+.volumeContainer {
+  border-style: solid;
+  border-width: small;
+  border-color: #ffffff;
+  display: inline-block; }
 
 .dial {
-  display: inline; }
-  .dial canvas {
-    width: 100px; }
+  display: inline-block; }
 
-#synthVolume {
-  display: inline; }
+#synth {
+  margin: 0 auto;
+  width: 80%;
+  display: block;
+  /*height: 20%;*/ }
