@@ -6,6 +6,7 @@ export const SET_SUSTAIN = 'SET_SUSTAIN';
 export const SET_RELEASE = 'SET_RELEASE';
 export const SET_FREQUENCY = 'SET_FREQUENCY';
 export const SET_RESONANCE = 'SET_RESONANCE';
+export const SET_OSC_VOLUMES = 'SET_OSC_VOLUMES';
 export const SET_MASTER_VOLUME = 'SET_MASTER_VOLUME';
 
 /* ------------   ACTION CREATORS     ----------------- */
@@ -32,23 +33,28 @@ export const setSustain = sustain => ({
 })
 
 export const setRelease = release => ({
-    type: SET_RELEASE,
-    release
+  type: SET_RELEASE,
+  release
 })
 
 export const setFrequency = frequency => ({
-    type: SET_FREQUENCY,
-    frequency
+  type: SET_FREQUENCY,
+  frequency
 })
 
 export const setResonance = resonance => ({
-    type: SET_RESONANCE,
-    resonance
+  type: SET_RESONANCE,
+  resonance
+})
+
+export const setOscVolume = volumeArray => ({
+  type: SET_OSC_VOLUMES,
+  volumeArray
 })
 
 export const setMasterVolume = volume => ({
-    type: SET_MASTER_VOLUME,
-    volume
+  type: SET_MASTER_VOLUME,
+  volume
 })
 
 /* -------------       REDUCER     ------------------- */
@@ -62,13 +68,16 @@ const initialState = {
   resonance: 1,
   volume: 1,
   oscillator1: {
-    'shape': "triangle"
+    'shape': "triangle",
+    volume: -60
   },
   oscillator2: {
-    'shape': "custom"
+    'shape': "custom",
+    volume: -60
   },
   oscillator3: {
-    'shape': "square"
+    'shape': "square",
+    volume: -60
   }
 }
 
@@ -92,6 +101,11 @@ export const synthReducer = (state = initialState, action) => {
       return Object.assign({}, state, {frequency: action.frequency});
     case SET_RESONANCE:
       return Object.assign({}, state, {resonance: action.resonance});
+    case SET_OSC_VOLUMES:
+      return Object.assign({}, state,
+        {oscillator1: Object.assign({}, state['oscillator1'], {volume: action.volumeArray[0]})},
+        {oscillator2: Object.assign({}, state['oscillator2'], {volume: action.volumeArray[1]})},
+        {oscillator3: Object.assign({}, state['oscillator3'], {volume: action.volumeArray[2]})});
     case SET_MASTER_VOLUME:
       return Object.assign({}, state, {volume: action.volume});
     default:

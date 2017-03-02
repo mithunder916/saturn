@@ -15,12 +15,14 @@ export default class Slider extends Component {
   }
 
   render(){
-    const { nxDefine, dispatcher, changeRouter, id, args } = this.props;
+    const { nxDefine, dispatcher, changeRouter, id, args, range } = this.props;
     return (
       <div>
         <canvas
         id={id}
         data-type="slider"
+        min={range[0]}
+        max={range[1]}
         ref={canvas => {nxDefine(canvas)}}
         onMouseDown={(e)=> this.binder(e)}
         onMouseUp={(e)=> {

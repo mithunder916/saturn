@@ -38,6 +38,8 @@ class Home extends Component {
     let columns = this.state.columns;
     nx.onload = function() {
       // console.log('inside nx.onload', drumMatrix)
+      oscVolume.setNumberOfSliders(3)
+      oscVolume.init()
       drumMatrix.col = columns;
       drumMatrix.row = 3;
       drumMatrix.colors.accent = "#87DEFF";

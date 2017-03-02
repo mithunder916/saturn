@@ -4,7 +4,8 @@ import Tone from 'tone';
 import Dial from './Dial.jsx';
 import Slider from './Slider.jsx';
 import { Selector } from './Selector.jsx';
-import { setWaveform, setAttack, setDecay, setSustain, setRelease, setFrequency, setResonance, setMasterVolume } from '../ducks/synth_ducks.jsx';
+import MultiSlider from './MultiSlider.jsx';
+import { setWaveform, setAttack, setDecay, setSustain, setRelease, setFrequency, setResonance, setOscVolume, setMasterVolume } from '../ducks/synth_ducks.jsx';
 
 // is there a better place to declare this? I didn't want to put it on state bc changing it would cause a re-render
 let keysAllowed = {},
@@ -149,19 +150,22 @@ class Synth extends Component {
   changeFilter(param, value){
     // synthFilter.set({[module]: value})
     synthFilter[param].value = value
-    // console.log(synthFilter)
   }
 
   changeVolume(value){
-    synthGain.volume.value = value * 5;
-    // console.log(synthGain)
+    synthGain.volume.value = value;
   }
 
+  // since Selector components are set to only pass event to their function, they can't use a change router function
   changeOscWave(event){
     if (event.target.name === 'Osc1') polySynth.set({oscillator: {type: event.target.value}});
     else if (event.target.name === 'Osc2') polySynth2.set({oscillator: {type: event.target.value}});
     else if (event.target.name === 'Osc3') polySynth3.set({oscillator: {type: event.target.value}})
-    // console.log(polySynths)
+  }
+
+  //RENAME TO AVOID CONFUSION W/ DISPATCH METHOD
+  changeOscVolume(volumeArray){
+    polySynths.forEach((synth, index) => synth.set({volume: volumeArray[index]}))
   }
 
   // based on type, calls a different function
@@ -333,6 +337,12 @@ class Synth extends Component {
           options={['square', 'triangle', 'sawtooth', 'sine', 'custom']}
           defaultValue={'square'}
           dispatcher={this.props.changeWaveform} />
+          <MultiSlider
+          nxDefine={nxDefine}
+          id='oscVolume'
+          dispatcher={this.props.changeOscVolumes}
+          change={this.changeOscVolume}
+           />
         </div>
         <div className='envelopeContainer'>
           <Dial nxDefine={nxDefine}
@@ -388,6 +398,7 @@ class Synth extends Component {
                 dispatcher={this.props.changeMasterVolume}
                 changeRouter={this.changeRouter}
                 args={['volume']}
+                range={[0, 20]}
                 id='synthVolume' />
       </div>
     )
@@ -395,7 +406,7 @@ class Synth extends Component {
 }
 
 /* REDUX CONTAINER */
-
+// remove mapStateToProps? since redux isn't controlling Tone.Synths, do I want this component to re-render upon dispatches?
 const mapStateToProps = ({ synth }) => ({ synth })
 
 const mapDispatchToProps = dispatch => ({
@@ -406,6 +417,7 @@ const mapDispatchToProps = dispatch => ({
   changeWaveform: (shape, oscNum) => dispatch(setWaveform(shape, oscNum)),
   changeFrequency: frequency => dispatch(setFrequency(frequency)),
   changeResonance: resonance => dispatch(setResonance(resonance)),
+  changeOscVolumes: volumeArray => dispatch(setOscVolume(volumeArray)),
   changeMasterVolume: volume => dispatch(setMasterVolume(volume))
 })
 
