@@ -4,7 +4,6 @@ import drumReducer from './drum_ducks.jsx';
 import {synthReducer} from './synth_ducks.jsx';
 
 export default combineReducers({
-  reducer,
-  // drums: drumReducer,
+  drums: drumReducer,
   synth: synthReducer
 });
