@@ -1,14 +1,16 @@
+$dev: solid 1px red;
+$panel: black;
+
 * {
   font-family: "open sans";
   box-sizing: border-box;
   color: #CC3BA7;
 }
-
 body {
   background-color: #2E005C;
 }
-
 .drumContainer {
+  position: relative;
   margin: 0 auto;
   display: block;
   width: 75%;
@@ -17,82 +19,35 @@ body {
   width: 100%;
   height: 40%;
 }
-
 // holds keyboard AND knobs/sliders
 .synthContainer {
-  border-style: solid;
-  border-width: small;
-  border-color: #000000;
-  background-color: #000000;
-  width: 80%;
-  // height: 50%;
-  display: block;
+  width: 75%;
   margin: 0 auto;
 }
-
-// just knobs and sliders
-.synthPanel {
+// a panel holding all knobs/sliders
+.optionsPanel {
+  display: flex;
+  border: $dev;
+  height: 250px; // adjustable
+  justify-content: space-between;
+  background: $panel;
+  // sections are sub panels holding specific knobs/sliders
+  .section {
+    padding: 2em 0;
+    display: inline-block;
+    float: left;
+    border: solid $dev;
+  }
+}
+//keyboard
+#synth {
+  margin: 0 auto;
   width: 100%;
+  display: block;
 }
-
-// just using inline didn't work
-// padding for selectors and multislider must be the same
-.waveSelectors {
-  // display: inline-block;
-  // margin: 1%;
-  padding: 2% 12%;
-  // width: 30%;
-  select{
-    width: 80%;
-  }
-}
-
-.oscillatorContainer {
-  display: inline-block;
-  border-style: solid;
-  border-width: small;
-  border-color: #ffffff;
-  .multislider {
-    width: 80%;
-    margin: 1%;
-    padding: 0 12%;
-    // margin: 0 auto;
-    // display: block;
-    // width: 80%;
-  }
-}
-
-.filterContainer {
-  border-style: solid;
-  border-width: small;
-  border-color: #ffffff;
-  display: inline-block;
-  // width: 80%;
-  .dial {
-    // padding-top: 20%;
-  }
-}
-
 .filterText {
   text-align: center;
-
 }
-
-.envelopeContainer {
-  border-style: solid;
-  border-width: small;
-  border-color: #ffffff;
-  display: inline-block;
-}
-
-
-.volumeContainer {
-  border-style: solid;
-  border-width: small;
-  border-color: #ffffff;
-  display: inline-block;
-}
-
 .dial {
   display: inline-block;
    // this nested selector functionality doesn't seem to work the same as putting the width attribute sdirectly on the canvas in JSX
@@ -100,19 +55,6 @@ body {
   // but JSX/nexusUI only understands px;
   canvas {
     // width: 30%;
-
   }
 }
-
-// #synthVolume {
-//   display: inline;
-// }
-
 // margin left/right auto + display:block centers synth
-#synth {
-  margin: 0 auto;
-  width: 80%;
-  display: block;
-  /*height: 20%;*/
-}
-
