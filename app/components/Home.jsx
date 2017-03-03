@@ -56,6 +56,7 @@ class Home extends Component {
     Tone.Transport.stop();
     // without this next line, multiple loops will trigger when the loop starts again; how to delete the old loops
     this.state.loop.stop();
+    console.log([drumMatrix], drumMatrix)
     [drumMatrix].forEach(matrix => matrix.stop())
   }
 
@@ -131,13 +132,6 @@ class Home extends Component {
     )
   }
 }
-
-        /*<select name="Subdivisions" value={this.state.columns} onChange={(e) => this.updateColumns(e)}>
-          <option value="4">4</option>
-          <option value="8">8</option>
-          <option value="16">16</option>
-          <option value="32">32</option>
-        </select>
 /* REDUX CONTAINER */
 
 // const mapStateToProps = ({ }) => ({ })

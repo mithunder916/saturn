@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-export class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
 
@@ -23,7 +23,7 @@ export class Login extends Component {
 
   render() {
     return (
-    <div>
+    <div className='loginButton'>
       <button onClick={() => this.signInGoog()}>LOGIN</button>
     </div>
     )
