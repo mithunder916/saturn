@@ -21,8 +21,7 @@ class Presets extends Component {
     firebase.database().ref('presets').on('value', snapshot => {
       if(!snapshot) return;
       this.setState({options: (Object.keys(snapshot.val()))})
-      // store.dispatch(setMessages(snapshot.val()));
-  })
+    })
   }
 
   // make separation in db between default presets and user presets
@@ -38,7 +37,6 @@ class Presets extends Component {
   loadPreset(e){
     const { synth, firebase, updateSynths, changePreset } = this.props;
     let presetName = e.target.value;
-    // console.log(firebase.database().ref('presets'))
 
     return firebase.database().ref('presets').once('value')
     .then((snapshot) => {
@@ -59,8 +57,8 @@ class Presets extends Component {
                  value="SAVE PRESET" />
         </form>
         <Selector name='loadPreset'
-                     changeOption={this.loadPreset}
-                     options={this.state.options}/>
+                  changeOption={this.loadPreset}
+                  options={this.state.options} />
       </div>
     )
   }

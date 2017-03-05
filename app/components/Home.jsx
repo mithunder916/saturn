@@ -42,8 +42,10 @@ class Home extends Component {
       oscVolume.init()
       drumMatrix.col = columns;
       drumMatrix.row = 3;
-      drumMatrix.colors.accent = "#87DEFF";
+      drumMatrix.colors.accent = "#3AFFCD";
       drumMatrix.init()
+      synth.octaves = 2;
+      synth.init()
     }
   }
 

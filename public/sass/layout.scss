@@ -2,9 +2,14 @@ $dev: solid 1px red;
 $panel: black;
 
 * {
-  font-family: "open sans";
+  // font-family: "open sans";
   box-sizing: border-box;
   color: #CC3BA7;
+}
+
+@font-face {
+  font-family: "Lazer 84", Helvetica;
+  src: local("Lazer 84"), url('public/style/fonts/Lazer84.ttf'), format("ttf")
 }
 body {
   background-color: #2E005C;
@@ -14,36 +19,44 @@ body {
   margin: 0 auto;
   display: block;
   width: 75%;
+  background-color: #CC3BA7;
 }
 #drumMatrix {
-  width: 100%;
+  width: 70%;
   height: 40%;
+  margin: 0 auto;
+  display: block;
 }
 // holds keyboard AND knobs/sliders
 .synthContainer {
-  width: 75%;
+  width: 50%;
   margin: 0 auto;
 }
 // a panel holding all knobs/sliders
 .optionsPanel {
   display: flex;
   border: $dev;
-  height: 250px; // adjustable
+  height: 175px; // adjustable
   justify-content: space-between;
   background: $panel;
   // sections are sub panels holding specific knobs/sliders
   .section {
     padding: 2em 0;
     display: inline-block;
-    float: left;
+    // float: left;
     border: solid $dev;
   }
+}
+
+.controlButtons {
+  margin: 0 auto;
+  display: block;
 }
 //keyboard
 #synth {
   margin: 0 auto;
-  width: 100%;
-  display: block;
+  width: 90%;
+  display: flex;
 }
 .filterText {
   text-align: center;

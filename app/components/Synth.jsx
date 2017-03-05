@@ -63,7 +63,7 @@ class Synth extends Component {
     polySynths = [polySynth, polySynth2, polySynth3]
 
     synthFilter = new Tone.Filter({
-      type: 'highpass',
+      type: 'lowpass',
       frequency: synth.frequency,
       rolloff: -12,
       Q: synth.resonance
@@ -355,7 +355,7 @@ class Synth extends Component {
                 dispatcher={this.props.changeFrequency}
                 changeRouter={this.changeRouter}
                 args={['filter', 'frequency']}
-                range={[100, 1200]}
+                range={[600, 20000]}
                 id='frequencyMod' />
           <Dial nxDefine={nxDefine}
                 dispatcher={this.props.changeResonance}
