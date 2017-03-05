@@ -5,7 +5,8 @@ import Dial from './Dial.jsx';
 import Slider from './Slider.jsx';
 import { Selector } from './Selector.jsx';
 import MultiSlider from './MultiSlider.jsx';
-import { setWaveform, setAttack, setDecay, setSustain, setRelease, setFrequency, setResonance, setOscVolume, setMasterVolume } from '../ducks/synth_ducks.jsx';
+import Presets from './Presets.jsx';
+import { setWaveform, setAttack, setDecay, setSustain, setRelease, setFrequency, setResonance, setOscVolume, setMasterVolume, setPreset } from '../ducks/synth_ducks.jsx';
 
 // is there a better place to declare this? I didn't want to put it on state bc changing it would cause a re-render
 let keysAllowed = {},
@@ -74,6 +75,7 @@ class Synth extends Component {
 
     this.playOrReleaseNote = this.playOrReleaseNote.bind(this);
     this.changeRouter = this.changeRouter.bind(this);
+    this.updateSynths = this.updateSynths.bind(this);
   }
 
   // work into loadPreset functionality?
@@ -315,7 +317,7 @@ class Synth extends Component {
 // refactor ASDR into multislider?
 // refactor by mapping through arrays for Selectors and Dials?
   render(){
-    const { nxDefine } = this.props;
+    const { nxDefine, firebase, synth } = this.props;
     return (
       <div className='synthContainer'>
         <div className='optionsPanel'>
@@ -407,7 +409,11 @@ class Synth extends Component {
         onKeyDown={(e) => this.playNote(e)}
         onKeyUp={(e) => this.releaseNote(e)}>
       </canvas>
-
+      <Presets firebase={firebase}
+          synth={synth}
+          updateSynths={this.updateSynths}
+          changePreset={this.props.changePreset}
+          />
     </div>
     )
   }
@@ -415,7 +421,7 @@ class Synth extends Component {
 
 /* REDUX CONTAINER */
 // remove mapStateToProps? since redux isn't controlling Tone.Synths, do I want this component to re-render upon dispatches?
-const mapStateToProps = ({ synth }) => ({ synth })
+const mapStateToProps = ({ synth, firebase }) => ({ synth, firebase })
 
 const mapDispatchToProps = dispatch => ({
   changeAttack: attack => dispatch(setAttack(attack)),
@@ -426,7 +432,8 @@ const mapDispatchToProps = dispatch => ({
   changeFrequency: frequency => dispatch(setFrequency(frequency)),
   changeResonance: resonance => dispatch(setResonance(resonance)),
   changeOscVolumes: volumeArray => dispatch(setOscVolume(volumeArray)),
-  changeMasterVolume: volume => dispatch(setMasterVolume(volume))
+  changeMasterVolume: volume => dispatch(setMasterVolume(volume)),
+  changePreset: preset => dispatch(setPreset(preset))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Synth);

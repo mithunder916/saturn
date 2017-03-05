@@ -56,8 +56,7 @@ class Home extends Component {
     Tone.Transport.stop();
     // without this next line, multiple loops will trigger when the loop starts again; how to delete the old loops
     this.state.loop.stop();
-    console.log([drumMatrix], drumMatrix)
-    [drumMatrix].forEach(matrix => matrix.stop())
+    drumMatrix.stop();
   }
 
   // add loadPattern; how to save data? by database? per user?
@@ -126,7 +125,7 @@ class Home extends Component {
           changeOption={(e)=>this.updateColumns(e)}
           options={['4','8','16','24','32']} />
         </div>
-        <Synth nxDefine={this.nxDefine}/>
+        <Synth nxDefine={this.nxDefine} />
         <MyRecorder />
       </div>
     )

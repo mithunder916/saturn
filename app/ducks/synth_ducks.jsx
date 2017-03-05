@@ -8,6 +8,8 @@ export const SET_FREQUENCY = 'SET_FREQUENCY';
 export const SET_RESONANCE = 'SET_RESONANCE';
 export const SET_OSC_VOLUMES = 'SET_OSC_VOLUMES';
 export const SET_MASTER_VOLUME = 'SET_MASTER_VOLUME';
+export const SET_PRESET = 'SET_PRESET';
+
 
 /* ------------   ACTION CREATORS     ----------------- */
 // oscNum denotes which oscillator should be modified
@@ -55,6 +57,11 @@ export const setOscVolume = volumeArray => ({
 export const setMasterVolume = volume => ({
   type: SET_MASTER_VOLUME,
   volume
+})
+
+export const setPreset = preset => ({
+  type: SET_PRESET,
+  preset
 })
 
 /* -------------       REDUCER     ------------------- */
@@ -108,6 +115,8 @@ export const synthReducer = (state = initialState, action) => {
         {oscillator3: Object.assign({}, state['oscillator3'], {volume: action.volumeArray[2]})});
     case SET_MASTER_VOLUME:
       return Object.assign({}, state, {volume: action.volume});
+    case SET_PRESET:
+      return Object.assign({}, action.preset)
     default:
       return state;
   }
