@@ -32,6 +32,7 @@ body {
   select {
     display: inline-block;
     border-radius: 1em;
+    border-width: .03em;
     background-color: $panel;
     font-family: "Arial";
     font-size: .85em;
@@ -48,6 +49,9 @@ button {
   display: block;
   width: 75%;
   background-color: #CC3BA7;
+  span {
+    color: black;
+  }
 }
 #drumMatrix {
   width: 70%;
@@ -88,10 +92,8 @@ button {
 
     select {
       display: inline-block;
-      border-width: .03em;
       width: 60%;
       border-radius: 1em;
-      // width: 50%;
     }
 
     .multislider {

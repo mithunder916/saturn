@@ -24,6 +24,7 @@ body {
   .selector select {
     display: inline-block;
     border-radius: 1em;
+    border-width: .03em;
     background-color: black;
     font-family: "Arial";
     font-size: .85em; }
@@ -39,6 +40,8 @@ button {
   display: block;
   width: 75%;
   background-color: #CC3BA7; }
+  .drumContainer span {
+    color: black; }
 
 #drumMatrix {
   width: 70%;
@@ -70,7 +73,6 @@ button {
     width: 30%; }
   .optionsPanel .waveContainer select {
     display: inline-block;
-    border-width: .03em;
     width: 60%;
     border-radius: 1em; }
   .optionsPanel .waveContainer .multislider {
