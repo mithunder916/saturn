@@ -2,54 +2,56 @@ import React, { Component } from 'react';
 import Tone from 'tone';
 import { connect } from 'react-redux';
 import Dial from './Dial.jsx';
+import loop, { realignView } from '../audio_scripts/loop';
 import { setTempo, setColumns, addRow } from '../ducks/drum_ducks.jsx';
 import { Selector } from './Selector.jsx';
 
-let drums;
+let drum;
 
 class DrumMachine extends Component {
   constructor(props){
     super(props)
 
     this.state = {
-      columns: drums.columns,
+      columns: props.drums.numColumns,
       loop: loop,
-      rows: drums.rows,
-      patterns: drums.patterns
+      rows: props.drums.rows,
+      patterns: []
     }
 
-    drums = new Tone.MultiPlayer({
+    drum = new Tone.MultiPlayer({
     urls : {
-      "hihat0" : "../samples/hihat.wav",
-      "hihat1" : "../samples/hihat2.wav",
-      "hihat2" : "../samples/hihat3.wav",
-      "snare0": "../samples/snare.wav",
-      "snare1" : "../samples/snare2.wav",
-      "snare2" : "../samples/snare3.wav",
-      "kick0": "../samples/kick.wav",
-      "kick1" : "../samples/kick2.wav",
-      "kick2" : "../samples/kick3.wav"
+      "hihat0" : "samples/hihat.wav",
+      "hihat1" : "samples/hihat2.wav",
+      "hihat2" : "samples/hihat3.wav",
+      "snare0": "samples/snare.wav",
+      "snare1" : "samples/snare2.wav",
+      "snare2" : "samples/snare3.wav",
+      "kick0": "samples/kick.wav",
+      "kick1" : "samples/kick2.wav",
+      "kick2" : "samples/kick3.wav"
     },
     volume : -48,
     fadeOut : 0.1,
   }).toMaster();
 
-    Tone.Transport.bpm.value = drums.tempo;
+    Tone.Transport.bpm.value = this.props.drums.tempo;
   }
 
   // function must change to handle multiple rows
+  // make local state params for selecting sample and volume
   triggerDrums(drumMatrix, time, col){
-    const { tempo, numColumns} = this.props;
+    const { columns } = this.state;
     let column = drumMatrix.matrix[col];
-    for (let i = 0; i < numColumns; i++) {
+    for (let i = 0; i < columns; i++) {
       if (column[0] === 1) {
-        drums.start('hihat' + audioSettings.hihat, time, 0, "16n", 0, audioSettings.hihatvol)
+        drum.start('hihat' + '0', time, 0, "16n", 0, 5)
       }
       if (column[1] === 1) {
-        drums.start('snare' + audioSettings.snare, time, 0, "16n", 0, audioSettings.snarevol)
+        drum.start('snare' + '0', time, 0, "16n", 0, 5)
       }
       if (column[2] === 1) {
-        drums.start('kick' + audioSettings.kick, time, 0, "16n", 0, audioSettings.kickvol)
+        drum.start('kick' + '0', time, 0, "16n", 0, 5)
       }
     }
     drumMatrix.place = col;
@@ -62,9 +64,9 @@ class DrumMachine extends Component {
   newLoop(cols){
     // can't adjust events array inside existing loop. must create a new one?
     // refactor using .set?
-    this.setState({loop: new Tone.Sequence(function(time, col) {
+    this.setState({loop: new Tone.Sequence((time, col) => {
       // console.log('COL', col)
-      triggerDrums(drumMatrix, time, col);
+      this.triggerDrums(drumMatrix, time, col);
 
       if (col === cols - 1) {
           realignView(drumMatrix);
@@ -87,7 +89,7 @@ class DrumMachine extends Component {
 
   componentDidUpdate(){
     drumMatrix.col = this.state.columns;
-    drumMatrix.init()
+    drumMatrix.init();
   }
 
   updateColumns(event){
@@ -95,7 +97,18 @@ class DrumMachine extends Component {
     this.stopSequence();
     this.setState({columns: event.target.value});
     this.newLoop(event.target.value);
-    // console.log(this.state.columns) this executes before setState is finished
+  }
+
+  startSequence(){
+    Tone.Transport.start();
+    this.state.loop.start()
+  }
+
+  stopSequence(){
+    Tone.Transport.stop();
+    // without this next line, multiple loops will trigger when the loop starts again; how to delete the old loops
+    this.state.loop.stop();
+    drumMatrix.stop();
   }
 
 // add selectors for what type of row to add
@@ -106,7 +119,7 @@ class DrumMachine extends Component {
       <div>
         <canvas
           data-type="matrix"
-          id="drumMatrix2"
+          id="drumMatrix"
           ref={(canvas) => {nxDefine(canvas)}}>
           </canvas>
         <Dial nxDefine={nxDefine}
@@ -121,6 +134,11 @@ class DrumMachine extends Component {
           value={this.state.columns}
           changeOption={(e) => this.updateColumns(e)}
           options={['4','8','16','24','32']} />
+        <div className='controlButtons'>
+          <button onClick={() => this.startSequence()}>START</button>
+          <button onClick={() => this.stopSequence()}>STOP</button>
+          <button onClick={()=> this.savePattern()}>SAVE LOOP</button>
+        </div>
       </div>
     )
   }
