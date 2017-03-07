@@ -23,6 +23,8 @@ export default class MultiSlider extends Component {
         <canvas
         data-type="multislider"
         id={id}
+        width='90'
+        height='40'
         ref={(canvas) => nxDefine(canvas)}
         onMouseDown={(e) => this.binder(e)}
         onMouseUp={(e)=> {

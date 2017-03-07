@@ -319,102 +319,108 @@ class Synth extends Component {
   render(){
     const { nxDefine, firebase, synth } = this.props;
     return (
-      <div className='synthContainer'>
-        <div className='optionsPanel'>
-          <div className='waveContainer section'>
-            <Selector
-            name='Osc1'
-            changeOption={this.changeOscWave}
-            options={['square', 'triangle', 'sawtooth', 'sine', 'custom']}
-            defaultValue={'triangle'}
-            dispatcher={this.props.changeWaveform} />
-            <Selector
-            name='Osc2'
-            changeOption={this.changeOscWave}
-            options={['square', 'triangle', 'sawtooth', 'sine', 'custom']}
-            defaultValue={'custom'}
-            dispatcher={this.props.changeWaveform} />
-            <Selector
-            name='Osc3'
-            changeOption={this.changeOscWave}
-            options={['square', 'triangle', 'sawtooth', 'sine', 'custom']}
-            defaultValue={'square'}
-            dispatcher={this.props.changeWaveform} />
-            <MultiSlider
-            nxDefine={nxDefine}
-            id='oscVolume'
-            dispatcher={this.props.changeOscVolumes}
-            change={this.changeOscVolume}
-            />
-        </div>
-        <div className='filterContainer section'>
-          <div className='filterText'>
-            Filter:                Resonance:
+      <div>
+        <div className='synthContainer'>
+          <div className='optionsPanel'>
+            <div className='waveContainer section'>
+              <Selector
+              name='Osc1'
+              changeOption={this.changeOscWave}
+              options={['square', 'triangle', 'sawtooth', 'sine', 'custom']}
+              defaultValue={'triangle'}
+              dispatcher={this.props.changeWaveform} />
+              <Selector
+              name='Osc2'
+              changeOption={this.changeOscWave}
+              options={['square', 'triangle', 'sawtooth', 'sine', 'custom']}
+              defaultValue={'custom'}
+              dispatcher={this.props.changeWaveform} />
+              <Selector
+              name='Osc3'
+              changeOption={this.changeOscWave}
+              options={['square', 'triangle', 'sawtooth', 'sine', 'custom']}
+              defaultValue={'square'}
+              dispatcher={this.props.changeWaveform} />
+              <MultiSlider
+              nxDefine={nxDefine}
+              id='oscVolume'
+              dispatcher={this.props.changeOscVolumes}
+              change={this.changeOscVolume}
+              />
           </div>
-          <Dial nxDefine={nxDefine}
-                dispatcher={this.props.changeFrequency}
-                changeRouter={this.changeRouter}
-                args={['filter', 'frequency']}
-                range={[600, 20000]}
-                id='frequencyMod' />
-          <Dial nxDefine={nxDefine}
-                dispatcher={this.props.changeResonance}
-                changeRouter={this.changeRouter}
-                args={['filter', 'Q']}
-                range={[0.1, 6]}
-                id='resonanceMod' />
-        </div>
-        <div className='envelopeContainer section'>
-          <Dial nxDefine={nxDefine}
-                dispatcher={this.props.changeAttack}
-                changeRouter={this.changeRouter}
-                args={['multi', 'attack', 'envelope']}
-                range={[0.3, 4]}
-                id='attackMod' />
-          <Dial nxDefine={nxDefine}
-                dispatcher={this.props.changeDecay}
-                changeRouter={this.changeRouter}
-                args={['multi', 'decay', 'envelope']}
-                range={[0.3, 4]}
-                id='decayMod' />
-          <Dial nxDefine={nxDefine}
-                dispatcher={this.props.changeSustain}
-                changeRouter={this.changeRouter}
-                args={['multi', 'sustain', 'envelope']}
-                range={[0.1, 1]}
-                id='sustainMod' />
-          <Dial nxDefine={nxDefine}
-                dispatcher={this.props.changeRelease}
-                changeRouter={this.changeRouter}
-                args={['multi', 'release', 'envelope']}
-                range={[0.3, 8]}
-                id='releaseMod' />
-        </div>
-        <div className='volumeContainer section'>
-          <Slider nxDefine={nxDefine}
-                  dispatcher={this.props.changeMasterVolume}
+          <div className='filterContainer section'>
+            <box><p>Filter:</p><Dial nxDefine={nxDefine}
+                  width='60'
+                  dispatcher={this.props.changeFrequency}
                   changeRouter={this.changeRouter}
-                  args={['volume']}
-                  range={[0, 20]}
-                  id='synthVolume' />
+                  args={['filter', 'frequency']}
+                  range={[600, 20000]}
+                  id='frequencyMod' /></box>
+            <box><p>Res:</p><Dial nxDefine={nxDefine}
+                  width='60'
+                  dispatcher={this.props.changeResonance}
+                  changeRouter={this.changeRouter}
+                  args={['filter', 'Q']}
+                  range={[0.1, 6]}
+                  id='resonanceMod' /></box>
+          </div>
+          <div className='envelopeContainer section'>
+            <quarter><p>A</p><Dial nxDefine={nxDefine}
+                  width='40'
+                  dispatcher={this.props.changeAttack}
+                  changeRouter={this.changeRouter}
+                  args={['multi', 'attack', 'envelope']}
+                  range={[0.3, 4]}
+                  id='attackMod' /></quarter>
+            <quarter><p>D</p><Dial nxDefine={nxDefine}
+                  width='40'
+                  dispatcher={this.props.changeDecay}
+                  changeRouter={this.changeRouter}
+                  args={['multi', 'decay', 'envelope']}
+                  range={[0.3, 4]}
+                  id='decayMod' /></quarter>
+            <quarter><p>S</p><Dial nxDefine={nxDefine}
+                  width='40'
+                  dispatcher={this.props.changeSustain}
+                  changeRouter={this.changeRouter}
+                  args={['multi', 'sustain', 'envelope']}
+                  range={[0.1, 1]}
+                  id='sustainMod' /></quarter>
+            <quarter><p>R</p><Dial nxDefine={nxDefine}
+                  width='40'
+                  dispatcher={this.props.changeRelease}
+                  changeRouter={this.changeRouter}
+                  args={['multi', 'release', 'envelope']}
+                  range={[0.3, 8]}
+                  id='releaseMod' /></quarter>
+          </div>
+          <div className='volumeContainer section'>
+            <p>VOL:</p>
+            <Slider nxDefine={nxDefine}
+                    dispatcher={this.props.changeMasterVolume}
+                    changeRouter={this.changeRouter}
+                    args={['volume']}
+                    range={[0, 20]}
+                    id='synthVolume' />
+          </div>
         </div>
+        <canvas
+          data-type="keyboard"
+          id="synth"
+          ref={(canvas) => {
+            nxDefine(canvas);
+            this.attachFocus(canvas)
+            }}
+          onKeyDown={(e) => this.playNote(e)}
+          onKeyUp={(e) => this.releaseNote(e)}>
+        </canvas>
+        </div>
+        <Presets firebase={firebase}
+            synth={synth}
+            updateSynths={this.updateSynths}
+            changePreset={this.props.changePreset}
+            />
       </div>
-      <canvas
-        data-type="keyboard"
-        id="synth"
-        ref={(canvas) => {
-          nxDefine(canvas);
-          this.attachFocus(canvas)
-          }}
-        onKeyDown={(e) => this.playNote(e)}
-        onKeyUp={(e) => this.releaseNote(e)}>
-      </canvas>
-      <Presets firebase={firebase}
-          synth={synth}
-          updateSynths={this.updateSynths}
-          changePreset={this.props.changePreset}
-          />
-    </div>
     )
   }
 }

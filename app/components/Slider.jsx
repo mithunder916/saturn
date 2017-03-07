@@ -21,6 +21,8 @@ export default class Slider extends Component {
         <canvas
         id={id}
         data-type="slider"
+        height='90'
+        width='35'
         min={range[0]}
         max={range[1]}
         ref={canvas => {nxDefine(canvas)}}

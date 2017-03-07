@@ -109,6 +109,7 @@ class Home extends Component {
       <div>
         <Login />
         <div className='drumContainer'>
+          SATURN
           <canvas
           data-type="matrix"
           id="drumMatrix"

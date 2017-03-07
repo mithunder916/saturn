@@ -56,7 +56,7 @@ class Presets extends Component {
           <input type="submit"
                  value="SAVE PRESET" />
         </form>
-        <Selector name='loadPreset'
+        <Selector name='load Preset'
                   changeOption={this.loadPreset}
                   options={this.state.options} />
       </div>

@@ -21,11 +21,13 @@ export default class Dial extends Component {
 
   // also pass min and max values
   render(){
-    const { nxDefine, dispatcher, changeRouter, id, args, range } = this.props;
+    const { nxDefine, dispatcher, changeRouter, id, args, range, width } = this.props;
     return (
       <div className='dial'>
         <canvas
         id={id}
+        width={width}
+        height='60'
         data-type="dial"
         min={range[0]}
         max={range[1]}

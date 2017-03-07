@@ -1,15 +1,39 @@
-* {
-  box-sizing: border-box;
-  color: #CC3BA7; }
+@font-face {
+  font-family: "lazer 84";
+  src: url("fonts/Lazer84.ttf") format("truetype"); }
 
 @font-face {
-  font-family: "Lazer 84", Helvetica;
-  src: local("Lazer 84"), url("Lazer84.ttf"), format("ttf"); }
+  font-family: "colors_of_autumn";
+  src: url("fonts/colors_of_autumn.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Streamster";
+  src: url("fonts/Streamster.ttf") format("truetype"); }
+
+* {
+  font-family: "lazer 84";
+  box-sizing: border-box;
+  color: #CC3BA7; }
 
 body {
   background-color: #2E005C; }
 
+.selector {
+  display: block;
+  border: 0; }
+  .selector select {
+    display: inline-block;
+    border-radius: 1em;
+    background-color: black;
+    font-family: "Arial";
+    font-size: .85em; }
+
+button {
+  background-color: black;
+  font-family: "Arial"; }
+
 .drumContainer {
+  color: black;
   position: relative;
   margin: 0 auto;
   display: block;
@@ -23,31 +47,58 @@ body {
   display: block; }
 
 .synthContainer {
-  width: 50%;
-  margin: 0 auto; }
-
-.optionsPanel {
-  display: flex;
-  border: solid 1px red;
-  height: 175px;
-  justify-content: space-between;
-  background: black; }
-  .optionsPanel .section {
-    padding: 2em 0;
-    display: inline-block;
-    border: solid solid 1px red; }
-
-.controlButtons {
-  margin: 0 auto;
-  display: block; }
+  width: 60%;
+  margin: 1em auto;
+  background-color: black;
+  border-radius: 1em; }
 
 #synth {
   margin: 0 auto;
   width: 90%;
+  height: 175px;
   display: flex; }
 
-.filterText {
+.optionsPanel {
+  display: flex;
+  height: 175px;
+  justify-content: space-around;
+  background: black;
   text-align: center; }
+  .optionsPanel .waveContainer span {
+    margin-right: .65em;
+    display: inline-block;
+    width: 30%; }
+  .optionsPanel .waveContainer select {
+    display: inline-block;
+    border-width: .03em;
+    width: 60%;
+    border-radius: 1em; }
+  .optionsPanel .waveContainer .multislider {
+    margin: .9em .25em; }
+  .optionsPanel .section {
+    padding: 1.5em .75em;
+    display: inline-block;
+    border: solid solid 1px red; }
+    .optionsPanel .section p {
+      margin: .5em 0; }
+    .optionsPanel .section box {
+      display: inline-block;
+      width: 50%;
+      vertical-align: top;
+      text-align: center; }
+      .optionsPanel .section box canvas {
+        margin: 0 .25em; }
+    .optionsPanel .section quarter {
+      display: inline-block;
+      width: 25%;
+      vertical-align: top;
+      text-align: center; }
+      .optionsPanel .section quarter canvas {
+        margin: 0 .25em; }
+
+.controlButtons {
+  margin: 0 auto;
+  display: block; }
 
 .dial {
   display: inline-block; }

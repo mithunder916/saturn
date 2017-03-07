@@ -1,20 +1,48 @@
 $dev: solid 1px red;
 $panel: black;
 
+@font-face {
+  font-family: "lazer 84";
+  src: url("fonts/Lazer84.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "colors_of_autumn";
+  src: url("fonts/colors_of_autumn.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Streamster";
+  src: url("fonts/Streamster.ttf") format('truetype');
+}
+
 * {
-  // font-family: "open sans";
+  font-family: "lazer 84";
   box-sizing: border-box;
   color: #CC3BA7;
 }
 
-@font-face {
-  font-family: "Lazer 84", Helvetica;
-  src: local("Lazer 84"), url('public/style/fonts/Lazer84.ttf'), format("ttf")
-}
 body {
   background-color: #2E005C;
 }
+.selector {
+  display: block;
+  border: 0;
+
+  select {
+    display: inline-block;
+    border-radius: 1em;
+    background-color: $panel;
+    font-family: "Arial";
+    font-size: .85em;
+  }
+}
+button {
+  background-color: black;
+  font-family: "Arial";
+}
 .drumContainer {
+  color: black;
   position: relative;
   margin: 0 auto;
   display: block;
@@ -29,45 +57,98 @@ body {
 }
 // holds keyboard AND knobs/sliders
 .synthContainer {
-  width: 50%;
+  width: 60%;
+  margin: 1em auto;
+  background-color: black;
+  border-radius: 1em;
+}
+
+//keyboard
+#synth {
   margin: 0 auto;
+  width: 90%;
+  height: 175px;
+  display: flex;
 }
 // a panel holding all knobs/sliders
 .optionsPanel {
   display: flex;
-  border: $dev;
+  // border: $dev;
   height: 175px; // adjustable
-  justify-content: space-between;
+  justify-content: space-around;
   background: $panel;
+  text-align: center;
+
+  .waveContainer {
+    span {
+      margin-right: .65em;
+      display: inline-block;
+      width: 30%;
+    }
+
+    select {
+      display: inline-block;
+      border-width: .03em;
+      width: 60%;
+      border-radius: 1em;
+      // width: 50%;
+    }
+
+    .multislider {
+      margin: .9em .25em
+    }
+
+
+  }
   // sections are sub panels holding specific knobs/sliders
   .section {
-    padding: 2em 0;
+    padding: 1.5em .75em;
     display: inline-block;
-    // float: left;
     border: solid $dev;
+    //
+    p {
+        margin: .5em 0;
+      }
+
+    // contains Filter and Res text and knobs
+    box {
+      display: inline-block;
+      width: 50%;
+      vertical-align: top;
+      text-align: center;
+      canvas {
+        margin: 0 .25em;
+      }
+    }
+    // how to make more DRY??
+    quarter {
+      display: inline-block;
+      width: 25%;
+      vertical-align: top;
+      text-align: center;
+      canvas {
+        margin: 0 .25em;
+      }
+    }
   }
 }
+
+// .waveContainer {
+//   margin: 0 auto;
+// }
 
 .controlButtons {
   margin: 0 auto;
   display: block;
 }
-//keyboard
-#synth {
-  margin: 0 auto;
-  width: 90%;
-  display: flex;
-}
-.filterText {
-  text-align: center;
-}
+
 .dial {
   display: inline-block;
    // this nested selector functionality doesn't seem to work the same as putting the width attribute sdirectly on the canvas in JSX
   // because the code below changes the canvas DOMnode that contains the dial, while doing it in JSX changes the actual dial as well as the canvas
   // but JSX/nexusUI only understands px;
   canvas {
-    // width: 30%;
+    // width: 4em;
   }
 }
 // margin left/right auto + display:block centers synth
