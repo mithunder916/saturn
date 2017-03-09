@@ -49,16 +49,20 @@ class Presets extends Component {
   render() {
     const { synth, firebase } = this.props;
     return (
-      <div>
+      <div className='presetContainer'>
+        <p>PRESETS</p>
         <form onSubmit={(e) => this.savePreset(e)}
-              id='savePreset'>
-          <input type="text" name="newPreset" />
+              id='savePreset'
+              className='section'>
           <input type="submit"
-                 value="SAVE PRESET" />
+                 value="SAVE" />
+          <input type="text" name="newPreset" />
         </form>
-        <Selector name='load Preset'
-                  changeOption={this.loadPreset}
-                  options={this.state.options} />
+        <div className='section'>
+          <Selector name='Load'
+                    changeOption={this.loadPreset}
+                    options={this.state.options} />
+        </div>
       </div>
     )
   }

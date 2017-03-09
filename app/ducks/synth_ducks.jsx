@@ -71,7 +71,7 @@ const initialState = {
   decay: 0.1,
   sustain: 0.5,
   release: 3,
-  frequency: 200,
+  frequency: 1000,
   resonance: 1,
   volume: 1,
   oscillator1: {

@@ -16,7 +16,7 @@
   color: #CC3BA7; }
 
 body {
-  background-color: #2E005C; }
+  background: linear-gradient(to right bottom, #2E005C, #4C2D5C, #3B346B, #221E47); }
 
 .selector {
   display: block;
@@ -44,14 +44,17 @@ button {
     color: black; }
 
 #drumMatrix {
-  width: 70%;
-  height: 40%;
   margin: 0 auto;
   display: block; }
 
-.synthContainer {
-  width: 60%;
+.synthHolder {
   margin: 1em auto;
+  width: 75%; }
+
+.synthContainer {
+  display: inline-block;
+  width: 60%;
+  vertical-align: top;
   background-color: black;
   border-radius: 1em; }
 
@@ -97,6 +100,25 @@ button {
       text-align: center; }
       .optionsPanel .section quarter canvas {
         margin: 0 .25em; }
+
+.presetContainer {
+  background: black;
+  display: inline-block;
+  border-radius: 1em;
+  margin: 0 1em; }
+  .presetContainer p {
+    margin: 0.25em 0;
+    text-align: center; }
+  .presetContainer .section {
+    padding: 0.25em 0.5em; }
+
+#savePreset input {
+  font-family: 'open sans';
+  background: black; }
+
+#savePreset input[type=submit] {
+  margin-right: 0.5em;
+  font-family: 'lazer 84'; }
 
 .controlButtons {
   margin: 0 auto;

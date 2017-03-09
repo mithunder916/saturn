@@ -120,6 +120,8 @@ class DrumMachine extends Component {
         <canvas
           data-type="matrix"
           id="drumMatrix"
+          height="260"
+          width="600"
           ref={(canvas) => {nxDefine(canvas)}}>
           </canvas>
         <Dial nxDefine={nxDefine}

@@ -1,5 +1,6 @@
 $dev: solid 1px red;
 $panel: black;
+$instrument-width: 75%;
 
 @font-face {
   font-family: "lazer 84";
@@ -23,7 +24,8 @@ $panel: black;
 }
 
 body {
-  background-color: #2E005C;
+  // lighter purple: 7C4A96
+  background: linear-gradient(to right bottom, #2E005C, #4C2D5C, #3B346B, #221E47);
 }
 .selector {
   display: block;
@@ -42,27 +44,38 @@ button {
   background-color: black;
   font-family: "Arial";
 }
+
+// Drums
 .drumContainer {
   color: black;
   position: relative;
   margin: 0 auto;
   display: block;
-  width: 75%;
+  width: $instrument-width;
   background-color: #CC3BA7;
   span {
     color: black;
   }
 }
 #drumMatrix {
-  width: 70%;
-  height: 40%;
+  // width: 50%;
+  // height: 40%;
   margin: 0 auto;
   display: block;
 }
+
+.synthHolder {
+  margin: 1em auto;
+  width: $instrument-width;
+}
 // holds keyboard AND knobs/sliders
 .synthContainer {
+  display: inline-block;
   width: 60%;
-  margin: 1em auto;
+  // currently determines how far right the keyboard sits
+  // margin-left: 8em;
+  // margin: 0 auto;
+  vertical-align: top;
   background-color: black;
   border-radius: 1em;
 }
@@ -135,9 +148,35 @@ button {
   }
 }
 
-// .waveContainer {
-//   margin: 0 auto;
-// }
+// Presets
+.presetContainer {
+  background: black;
+  display: inline-block;
+  border-radius: 1em;
+  margin: 0 1em;
+
+  p {
+    margin: 0.25em 0;
+    text-align: center;
+  }
+
+  .section {
+    padding: 0.25em 0.5em;
+    // display: inline-block;
+    // width: 50%;
+  }
+}
+
+#savePreset {
+  input {
+    font-family: 'open sans';
+    background: black;
+  }
+  input[type=submit] {
+    margin-right: 0.5em;
+    font-family: 'lazer 84';
+  }
+}
 
 .controlButtons {
   margin: 0 auto;
