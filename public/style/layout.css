@@ -16,7 +16,7 @@
   color: #CC3BA7; }
 
 body {
-  background: linear-gradient(to right bottom, #2E005C, #4C2D5C, #3B346B, #221E47); }
+  background: linear-gradient(to right bottom, #2E005C, #4C2D5C, #483063, #221E47, black); }
 
 .selector {
   display: block;
