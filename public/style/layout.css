@@ -58,10 +58,10 @@ button {
   flex-direction: column;
   height: 260px; }
 
-.iconRow {
+iconRow {
   height: 100%;
   position: relative; }
-  .iconRow object {
+  iconRow object {
     position: absolute;
     margin: auto 0.5em;
     top: 0;
