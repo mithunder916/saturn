@@ -16,7 +16,7 @@
   color: #CC3BA7; }
 
 body {
-  background-color: #2E005C; }
+  background: linear-gradient(to right bottom, #2E005C, #4C2D5C, #483063, #221E47, black); }
 
 .selector {
   display: block;
@@ -35,7 +35,6 @@ button {
 
 .drumContainer {
   color: black;
-  position: relative;
   margin: 0 auto;
   display: block;
   width: 75%;
@@ -43,15 +42,52 @@ button {
   .drumContainer span {
     color: black; }
 
+.drumRow {
+  border: solid green;
+  padding: 0.25em 0; }
+
+#iconContainer {
+  display: inline-block;
+  width: 25%;
+  height: 100%;
+  border: solid blue;
+  vertical-align: top; }
+
+#drumIcons {
+  display: flex;
+  flex-direction: column;
+  height: 260px; }
+
+iconRow {
+  height: 100%;
+  position: relative; }
+  iconRow object {
+    position: absolute;
+    margin: auto 0.5em;
+    top: 0;
+    bottom: 0; }
+
 #drumMatrix {
-  width: 70%;
-  height: 40%;
-  margin: 0 auto;
-  display: block; }
+  display: inline-block;
+  width: 75%; }
+
+#drumControls {
+  display: inline-block; }
+
+#loopControls {
+  display: inline-block; }
+
+#accents {
+  display: inline-block; }
+
+.synthHolder {
+  margin: 1em auto;
+  width: 75%; }
 
 .synthContainer {
+  display: inline-block;
   width: 60%;
-  margin: 1em auto;
+  vertical-align: top;
   background-color: black;
   border-radius: 1em; }
 
@@ -97,6 +133,25 @@ button {
       text-align: center; }
       .optionsPanel .section quarter canvas {
         margin: 0 .25em; }
+
+.presetContainer {
+  background: black;
+  display: inline-block;
+  border-radius: 1em;
+  margin: 0 1em; }
+  .presetContainer p {
+    margin: 0.25em 0;
+    text-align: center; }
+  .presetContainer .section {
+    padding: 0.25em 0.5em; }
+
+#savePreset input {
+  font-family: 'open sans';
+  background: black; }
+
+#savePreset input[type=submit] {
+  margin-right: 0.5em;
+  font-family: 'lazer 84'; }
 
 .controlButtons {
   margin: 0 auto;

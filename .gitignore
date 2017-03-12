@@ -5,3 +5,4 @@ public/bundle.js
 public/bundle.js.map
 samples
 app/firebase.jsx
+.babelrc

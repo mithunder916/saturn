@@ -57,10 +57,7 @@ class Home extends Component {
     return (
       <div>
         <Login />
-        <div className='drumContainer'>
-          SATURN
-          <DrumMachine nxDefine={this.nxDefine}/>
-        </div>
+        <DrumMachine nxDefine={this.nxDefine}/>
         <Synth nxDefine={this.nxDefine} />
         <MyRecorder />
       </div>

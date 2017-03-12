@@ -77,8 +77,28 @@ class DrumMachine extends Component {
 
   updateRows(add){
     let rowNum = this.state.rows;
-    if (add) this.setState({rows: rowNum++})
-    else if (!add && rowNum > 2) this.setState({rows: rowNum--})
+    if (add) this.setState({rows: rowNum + 1})
+    else if (!add && rowNum > 2) this.setState({rows: rowNum - 1})
+  }
+
+  // creates new icon and svg and appends to DOM
+  addRow(){
+    let newRow = document.createElement('iconRow'),
+        newIcon = document.createElement('object');
+    newIcon.setAttribute('type', 'image/svg+xml');newIcon.setAttribute('data', 'public/style/svgs/play.svg');
+    newRow.appendChild(newIcon);
+    document.getElementById('drumIcons').appendChild(newRow);
+
+    this.updateRows(true);
+  }
+
+  // ref callback on drumIcons container; sets width for all icons
+  adjustWidth(element){
+    if (element){
+      let iconWidth = (260 / (this.state.rows)) * (2/3);
+
+      [...element.children].forEach(iconRow => iconRow.firstChild.setAttribute('width', iconWidth))
+    }
   }
 
   // add firebase
@@ -87,16 +107,18 @@ class DrumMachine extends Component {
     console.log(this.state.patterns)
   }
 
-  componentDidUpdate(){
-    drumMatrix.col = this.state.columns;
-    drumMatrix.init();
-  }
 
   updateColumns(event){
     // updates columns on the matrix, and calls newLoop, which creates a new loop with a corresponding number of events (steps)
     this.stopSequence();
     this.setState({columns: event.target.value});
     this.newLoop(event.target.value);
+  }
+
+  componentDidUpdate(){
+    drumMatrix.col = this.state.columns;
+    drumMatrix.row = this.state.rows;
+    drumMatrix.init();
   }
 
   startSequence(){
@@ -112,32 +134,70 @@ class DrumMachine extends Component {
   }
 
 // add selectors for what type of row to add
-//
   render(){
     const { nxDefine } = this.props;
+
+    // sets width of icons to two-thirds of iconRow size, which is inside a flex box
+    let iconWidth = (260 / this.state.rows) * (2/3);
+    // console.log('iconWidth', iconWidth)
     return (
-      <div>
-        <canvas
-          data-type="matrix"
-          id="drumMatrix"
-          ref={(canvas) => {nxDefine(canvas)}}>
+      <div className='drumContainer'>
+        <div className='drumRow'>
+          <div id='iconContainer'>
+            <div
+            id='drumIcons'
+            ref={(el) => {this.adjustWidth(el)}}>
+              <iconRow>
+                <object
+                type="image/svg+xml"
+                data="public/style/svgs/stop.svg"
+                 />
+              </iconRow>
+              <iconRow>
+                <object
+                type="image/svg+xml" data="public/style/svgs/play.svg"  />
+              </iconRow>
+              <iconRow>
+                <object
+                type="image/svg+xml" data="public/style/svgs/play.svg"
+                 />
+              </iconRow>
+            </div>
+          </div>
+          <canvas
+            data-type="matrix"
+            id="drumMatrix"
+            height="260"
+            width="600"
+            ref={(canvas) => {nxDefine(canvas)}}>
           </canvas>
-        <Dial nxDefine={nxDefine}
-              changeRouter={this.changeTempo}
-              dispatcher={this.props.setTempo}
-              range={['60', '200']}
-              args={[]}
-              id='tempoMod'
-               />
-        <Selector
-          name='Subdivision'
-          value={this.state.columns}
-          changeOption={(e) => this.updateColumns(e)}
-          options={['4','8','16','24','32']} />
-        <div className='controlButtons'>
-          <button onClick={() => this.startSequence()}>START</button>
-          <button onClick={() => this.stopSequence()}>STOP</button>
-          <button onClick={()=> this.savePattern()}>SAVE LOOP</button>
+        </div>
+        <div className='drumRow'>
+          <div id='loopControls'>
+            <Selector
+              name='Beats'
+              value={this.state.columns}
+              changeOption={(e) => this.updateColumns(e)}
+              options={['4','8','16','24','32']} />
+            <div className='controlButtons'>
+              <button onClick={() => this.startSequence()}>START</button>
+              <button onClick={() => this.stopSequence()}>STOP</button>
+              <button onClick={()=> this.addRow()}>ADD ROW</button>
+            </div>
+          </div>
+          <div id='accents'>
+
+          </div>
+        </div>
+        <div id='drumControls'>
+            <Dial nxDefine={nxDefine}
+                  width='60'
+                  changeRouter={this.changeTempo}
+                  dispatcher={this.props.setTempo}
+                  range={['60', '200']}
+                  args={[]}
+                  id='tempoMod'
+                  />
         </div>
       </div>
     )

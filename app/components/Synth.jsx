@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Tone from 'tone';
+import { adjustToScale } from '../audio_scripts/utils';
 import Dial from './Dial.jsx';
 import Slider from './Slider.jsx';
 import { Selector } from './Selector.jsx';
@@ -78,11 +79,10 @@ class Synth extends Component {
     this.updateSynths = this.updateSynths.bind(this);
   }
 
-  // work into loadPreset functionality?
+  // called by Preset component's loadPreset function
   updateSynths(){
-    let time3 = performance.now()
     const { synth } = this.props;
-    // call set here
+
     polySynth.set({
       "oscillator" : {
         "partials" : [0, 2, 3, 4],
@@ -125,20 +125,23 @@ class Synth extends Component {
       "volume": -60
     })
 
+    synthFilter.set({
+      type: 'lowpass',
+      frequency: synth.frequency,
+      rolloff: -12,
+      Q: synth.resonance
+    });
+
+    synthGain.volume.value = synth.volume;
+
     polySynths = [polySynth, polySynth2, polySynth3]
-    let time4 = performance.now()
-    console.log('TIME', time4 - time3);
   }
 
   // module: oscillator, envelope (might not be necessary)
   // param: attack, type, partials
   // value: number, etc. depends on param
   changeAllOsc(module, param, value){
-    // let time1 = performance.now();
     polySynths.forEach(synth => synth.set({[module]: {[param]: value}}))
-    // console.log(polySynths)
-    // let time2 = performance.now()
-    // console.log('TIME', time2 - time1);
   }
 
   // for controls that only modify one synth; NOT CURRENTLY USING, possible unneeded
@@ -155,7 +158,7 @@ class Synth extends Component {
   }
 
   changeVolume(value){
-    synthGain.volume.value = value;
+    synthGain.volume.value = adjustToScale(value, [-10, 8]);
   }
 
   // since Selector components are set to only pass event to their function, they can't use a change router function
@@ -167,7 +170,10 @@ class Synth extends Component {
 
   //RENAME TO AVOID CONFUSION W/ DISPATCH METHOD
   changeOscVolume(volumeArray){
-    polySynths.forEach((synth, index) => synth.set({volume: volumeArray[index]}))
+    polySynths.forEach((synth, index) => {
+      let newVol = adjustToScale(volumeArray[index], [-88, -48])
+      synth.set({volume: newVol})
+    })
   }
 
   // based on type, calls a different function
@@ -246,7 +252,7 @@ class Synth extends Component {
                 break;
       case 'Backspace': this.playOrReleaseNote('Bb4', 'attack', 22)
                 break;
-      default: console.log(event.key)
+      default: return;
     }
   }
 
@@ -300,7 +306,7 @@ class Synth extends Component {
                 break;
       case 'Backspace': this.playOrReleaseNote('Bb4', 'release', 22)
                 break;
-      default: console.log(event.key)
+      default: return;
     }
     // resets key so that it can be played again
     keysAllowed[event.key] = true;
@@ -314,12 +320,10 @@ class Synth extends Component {
     }
   }
 
-// refactor ASDR into multislider?
-// refactor by mapping through arrays for Selectors and Dials?
   render(){
     const { nxDefine, firebase, synth } = this.props;
     return (
-      <div>
+      <div className='synthHolder'>
         <div className='synthContainer'>
           <div className='optionsPanel'>
             <div className='waveContainer section'>
@@ -354,14 +358,14 @@ class Synth extends Component {
                   dispatcher={this.props.changeFrequency}
                   changeRouter={this.changeRouter}
                   args={['filter', 'frequency']}
-                  range={[600, 20000]}
+                  range={[100, 20000]}
                   id='frequencyMod' /></box>
             <box><p>Res:</p><Dial nxDefine={nxDefine}
                   width='60'
                   dispatcher={this.props.changeResonance}
                   changeRouter={this.changeRouter}
                   args={['filter', 'Q']}
-                  range={[0.1, 6]}
+                  range={[0.1, 7]}
                   id='resonanceMod' /></box>
           </div>
           <div className='envelopeContainer section'>
@@ -370,14 +374,14 @@ class Synth extends Component {
                   dispatcher={this.props.changeAttack}
                   changeRouter={this.changeRouter}
                   args={['multi', 'attack', 'envelope']}
-                  range={[0.3, 4]}
+                  range={[0.3, 6]}
                   id='attackMod' /></quarter>
             <quarter><p>D</p><Dial nxDefine={nxDefine}
                   width='40'
                   dispatcher={this.props.changeDecay}
                   changeRouter={this.changeRouter}
                   args={['multi', 'decay', 'envelope']}
-                  range={[0.3, 4]}
+                  range={[0.3, 6]}
                   id='decayMod' /></quarter>
             <quarter><p>S</p><Dial nxDefine={nxDefine}
                   width='40'
@@ -400,7 +404,7 @@ class Synth extends Component {
                     dispatcher={this.props.changeMasterVolume}
                     changeRouter={this.changeRouter}
                     args={['volume']}
-                    range={[0, 20]}
+                    range={[0, 1]}
                     id='synthVolume' />
           </div>
         </div>

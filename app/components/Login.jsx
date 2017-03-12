@@ -22,15 +22,19 @@ class Login extends Component {
   }
 
   render() {
+    const { user } = this.props
     return (
     <div className='loginButton'>
-      <button onClick={() => this.signInGoog()}>LOGIN</button>
+      {user.email ?
+        <button onClick={() => this.signOut()}>LOGOUT</button> :
+        <button onClick={() => this.signInGoog()}>LOGIN</button>
+      }
     </div>
     )
   }
 }
 /* REDUX CONTAINER */
-const mapStateToProps = ({ firebase }) => ({ firebase })
+const mapStateToProps = ({ firebase, user }) => ({ firebase, user })
 
 // const mapDispatchToProps = dispatch => ({ })
 

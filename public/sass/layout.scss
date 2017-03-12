@@ -1,5 +1,6 @@
 $dev: solid 1px red;
 $panel: black;
+$instrument-width: 75%;
 
 @font-face {
   font-family: "lazer 84";
@@ -23,7 +24,8 @@ $panel: black;
 }
 
 body {
-  background-color: #2E005C;
+  // lighter purple: 7C4A96
+  background: linear-gradient(to right bottom, #2E005C, #4C2D5C, #483063, #221E47, black);
 }
 .selector {
   display: block;
@@ -42,27 +44,87 @@ button {
   background-color: black;
   font-family: "Arial";
 }
+
+// Drums
 .drumContainer {
   color: black;
-  position: relative;
+  // position: relative;
   margin: 0 auto;
   display: block;
-  width: 75%;
+  width: $instrument-width;
   background-color: #CC3BA7;
   span {
     color: black;
   }
 }
+
+.drumRow {
+  border: solid green;
+  padding: 0.25em 0;
+}
+#iconContainer {
+  display: inline-block;
+  width: 25%;
+  height: 100%;
+  border: solid blue;
+  vertical-align: top;
+  // background-color: blue;
+}
+// flexbox parent for icons
+#drumIcons {
+  display: flex;
+  flex-direction: column;
+  // current height of drumMatrix canvas
+  height: 260px;
+  // justify-content: center;
+}
+
+iconRow {
+  // border: solid black;
+  height: 100%;
+  position: relative;
+  object {
+    // vertical-align: bottom;
+    // display: inline-block;
+    position: absolute;
+    margin: auto 0.5em;
+    top: 0;
+    bottom: 0;
+  }
+}
+
 #drumMatrix {
-  width: 70%;
-  height: 40%;
-  margin: 0 auto;
-  display: block;
+  // margin: 0 auto;
+  display: inline-block;
+  width: 75%;
+}
+
+#drumControls {
+  display: inline-block;
+}
+
+#loopControls {
+  display: inline-block;
+}
+
+#accents {
+  display: inline-block;
+}
+
+// end Drums
+
+.synthHolder {
+  margin: 1em auto;
+  width: $instrument-width;
 }
 // holds keyboard AND knobs/sliders
 .synthContainer {
+  display: inline-block;
   width: 60%;
-  margin: 1em auto;
+  // currently determines how far right the keyboard sits
+  // margin-left: 8em;
+  // margin: 0 auto;
+  vertical-align: top;
   background-color: black;
   border-radius: 1em;
 }
@@ -77,7 +139,6 @@ button {
 // a panel holding all knobs/sliders
 .optionsPanel {
   display: flex;
-  // border: $dev;
   height: 175px; // adjustable
   justify-content: space-around;
   background: $panel;
@@ -135,9 +196,35 @@ button {
   }
 }
 
-// .waveContainer {
-//   margin: 0 auto;
-// }
+// Presets
+.presetContainer {
+  background: black;
+  display: inline-block;
+  border-radius: 1em;
+  margin: 0 1em;
+
+  p {
+    margin: 0.25em 0;
+    text-align: center;
+  }
+
+  .section {
+    padding: 0.25em 0.5em;
+    // display: inline-block;
+    // width: 50%;
+  }
+}
+
+#savePreset {
+  input {
+    font-family: 'open sans';
+    background: black;
+  }
+  input[type=submit] {
+    margin-right: 0.5em;
+    font-family: 'lazer 84';
+  }
+}
 
 .controlButtons {
   margin: 0 auto;
