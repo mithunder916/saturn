@@ -35,7 +35,6 @@ button {
 
 .drumContainer {
   color: black;
-  position: relative;
   margin: 0 auto;
   display: block;
   width: 75%;
@@ -43,9 +42,43 @@ button {
   .drumContainer span {
     color: black; }
 
+.drumRow {
+  border: solid green;
+  padding: 0.25em 0; }
+
+#iconContainer {
+  display: inline-block;
+  width: 25%;
+  height: 100%;
+  border: solid blue;
+  vertical-align: top; }
+
+#drumIcons {
+  display: flex;
+  flex-direction: column;
+  height: 260px; }
+
+.iconRow {
+  height: 100%;
+  position: relative; }
+  .iconRow object {
+    position: absolute;
+    margin: auto 0.5em;
+    top: 0;
+    bottom: 0; }
+
 #drumMatrix {
-  margin: 0 auto;
-  display: block; }
+  display: inline-block;
+  width: 75%; }
+
+#drumControls {
+  display: inline-block; }
+
+#loopControls {
+  display: inline-block; }
+
+#accents {
+  display: inline-block; }
 
 .synthHolder {
   margin: 1em auto;

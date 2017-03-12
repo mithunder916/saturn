@@ -115,31 +115,67 @@ class DrumMachine extends Component {
 //
   render(){
     const { nxDefine } = this.props;
+
+    // sets width of icons to two-thirds of iconRow size, which is inside a flex box
+    const iconWidth = (260 / this.state.rows) * (2/3);
+    console.log('iconWidth', iconWidth)
     return (
-      <div>
-        <canvas
-          data-type="matrix"
-          id="drumMatrix"
-          height="260"
-          width="600"
-          ref={(canvas) => {nxDefine(canvas)}}>
+      <div className='drumContainer'>
+        <div className='drumRow'>
+          <div id='iconContainer'>
+            <div id='drumIcons'>
+              <div className='iconRow'>
+                <object
+                type="image/svg+xml"
+                data="public/style/svgs/stop.svg"
+                width={iconWidth} />
+                {/*<svg xmlns="public/style/svgs/stop.svg" />*/}
+              </div>
+              <div className='iconRow'>
+                <object
+                type="image/svg+xml" data="public/style/svgs/play.svg" width={iconWidth} />
+              </div>
+              <div className='iconRow'>
+                <object
+                type="image/svg+xml" data="public/style/svgs/play.svg"
+                width={iconWidth} />
+              </div>
+            </div>
+          </div>
+          <canvas
+            data-type="matrix"
+            id="drumMatrix"
+            height="260"
+            width="600"
+            ref={(canvas) => {nxDefine(canvas)}}>
           </canvas>
-        <Dial nxDefine={nxDefine}
-              changeRouter={this.changeTempo}
-              dispatcher={this.props.setTempo}
-              range={['60', '200']}
-              args={[]}
-              id='tempoMod'
-               />
-        <Selector
-          name='Subdivision'
-          value={this.state.columns}
-          changeOption={(e) => this.updateColumns(e)}
-          options={['4','8','16','24','32']} />
-        <div className='controlButtons'>
-          <button onClick={() => this.startSequence()}>START</button>
-          <button onClick={() => this.stopSequence()}>STOP</button>
-          <button onClick={()=> this.savePattern()}>SAVE LOOP</button>
+        </div>
+        <div className='drumRow'>
+          <div id='loopControls'>
+            <Selector
+              name='Beats'
+              value={this.state.columns}
+              changeOption={(e) => this.updateColumns(e)}
+              options={['4','8','16','24','32']} />
+            <div className='controlButtons'>
+              <button onClick={() => this.startSequence()}>START</button>
+              <button onClick={() => this.stopSequence()}>STOP</button>
+              <button onClick={()=> this.savePattern()}>SAVE LOOP</button>
+            </div>
+          </div>
+          <div id='accents'>
+
+          </div>
+        </div>
+        <div id='drumControls'>
+            <Dial nxDefine={nxDefine}
+                  width='60'
+                  changeRouter={this.changeTempo}
+                  dispatcher={this.props.setTempo}
+                  range={['60', '200']}
+                  args={[]}
+                  id='tempoMod'
+                  />
         </div>
       </div>
     )

@@ -48,7 +48,7 @@ button {
 // Drums
 .drumContainer {
   color: black;
-  position: relative;
+  // position: relative;
   margin: 0 auto;
   display: block;
   width: $instrument-width;
@@ -57,12 +57,61 @@ button {
     color: black;
   }
 }
-#drumMatrix {
-  // width: 50%;
-  // height: 40%;
-  margin: 0 auto;
-  display: block;
+
+.drumRow {
+  border: solid green;
+  padding: 0.25em 0;
 }
+#iconContainer {
+  display: inline-block;
+  width: 25%;
+  height: 100%;
+  border: solid blue;
+  vertical-align: top;
+  // background-color: blue;
+}
+// flexbox parent for icons
+#drumIcons {
+  display: flex;
+  flex-direction: column;
+  // current height of drumMatrix canvas
+  height: 260px;
+  // justify-content: center;
+}
+
+.iconRow {
+  // border: solid black;
+  height: 100%;
+  position: relative;
+  object {
+    // vertical-align: bottom;
+    // display: inline-block;
+    position: absolute;
+    margin: auto 0.5em;
+    top: 0;
+    bottom: 0;
+  }
+}
+
+#drumMatrix {
+  // margin: 0 auto;
+  display: inline-block;
+  width: 75%;
+}
+
+#drumControls {
+  display: inline-block;
+}
+
+#loopControls {
+  display: inline-block;
+}
+
+#accents {
+  display: inline-block;
+}
+
+// end Drums
 
 .synthHolder {
   margin: 1em auto;
@@ -90,7 +139,6 @@ button {
 // a panel holding all knobs/sliders
 .optionsPanel {
   display: flex;
-  // border: $dev;
   height: 175px; // adjustable
   justify-content: space-around;
   background: $panel;
