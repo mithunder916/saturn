@@ -1,5 +1,6 @@
 $dev: solid 1px red;
 $panel: black;
+$bright-pink: #CC3BA7;
 $instrument-width: 75%;
 
 @font-face {
@@ -20,13 +21,14 @@ $instrument-width: 75%;
 * {
   font-family: "lazer 84";
   box-sizing: border-box;
-  color: #CC3BA7;
+  color: $bright-pink;
 }
 
 body {
   // lighter purple: 7C4A96
   background: linear-gradient(to right bottom, #2E005C, #4C2D5C, #483063, #221E47, black);
 }
+
 .selector {
   display: block;
   border: 0;
@@ -38,6 +40,7 @@ body {
     background-color: $panel;
     font-family: "Arial";
     font-size: .85em;
+    -webkit-appearance: menulist;
   }
 }
 button {
@@ -52,7 +55,7 @@ button {
   margin: 0 auto;
   display: block;
   width: $instrument-width;
-  background-color: #CC3BA7;
+  background-color: $bright-pink;
   span {
     color: black;
   }
@@ -83,13 +86,34 @@ iconRow {
   // border: solid black;
   height: 100%;
   position: relative;
+
   object {
-    // vertical-align: bottom;
-    // display: inline-block;
     position: absolute;
     margin: auto 0.5em;
     top: 0;
     bottom: 0;
+  }
+
+  removeButton {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 80%;
+    height: 25%;
+    width: 10%;
+    text-align: center;
+    font-size: 70%;
+
+    color: black;
+    // background-color: black;
+    transition-property: color;
+    transition-duration: .6s;
+    transition-timing-function: linear;
+  }
+
+  removeButton:hover {
+    color: red
   }
 }
 
@@ -101,6 +125,26 @@ iconRow {
 
 #drumControls {
   display: inline-block;
+}
+
+#addRow {
+  display: inline-block;
+
+  input[type=submit] {
+    background: black;
+    margin-right: 0.5em;
+    font-family: "lazer 84";
+  }
+
+  select {
+    display: inline-block;
+    border-radius: 1em;
+    border-width: .03em;
+    background-color: $panel;
+    font-family: "Arial";
+    font-size: .85em;
+    -webkit-appearance: menulist;
+  }
 }
 
 #loopControls {

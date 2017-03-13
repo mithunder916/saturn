@@ -6,7 +6,7 @@ import loop, { realignView } from '../audio_scripts/loop';
 import { setTempo, setColumns, addRow } from '../ducks/drum_ducks.jsx';
 import { Selector } from './Selector.jsx';
 
-let drum;
+let drum, rowNum = 3;
 
 class DrumMachine extends Component {
   constructor(props){
@@ -16,6 +16,7 @@ class DrumMachine extends Component {
       columns: props.drums.numColumns,
       loop: loop,
       rows: props.drums.rows,
+      types: props.drums.types,
       patterns: []
     }
 
@@ -36,23 +37,22 @@ class DrumMachine extends Component {
   }).toMaster();
 
     Tone.Transport.bpm.value = this.props.drums.tempo;
+
+    this.removeRow = this.removeRow.bind(this);
+    // this.deleteRow = this.removeRow.bind(this)
   }
 
-  // function must change to handle multiple rows
   // make local state params for selecting sample and volume
   triggerDrums(drumMatrix, time, col){
-    const { columns } = this.state;
+    const { columns, types } = this.state;
     let column = drumMatrix.matrix[col];
     for (let i = 0; i < columns; i++) {
-      if (column[0] === 1) {
-        drum.start('hihat' + '0', time, 0, "16n", 0, 5)
-      }
-      if (column[1] === 1) {
-        drum.start('snare' + '0', time, 0, "16n", 0, 5)
-      }
-      if (column[2] === 1) {
-        drum.start('kick' + '0', time, 0, "16n", 0, 5)
-      }
+      // modify to include sample select and accents
+      column.forEach((box, i) => {
+        if (box === 1){
+          drum.start(types[i] + '0', time, 0, '16n', 0, 5);
+        }
+      })
     }
     drumMatrix.place = col;
   }
@@ -65,7 +65,6 @@ class DrumMachine extends Component {
     // can't adjust events array inside existing loop. must create a new one?
     // refactor using .set?
     this.setState({loop: new Tone.Sequence((time, col) => {
-      // console.log('COL', col)
       this.triggerDrums(drumMatrix, time, col);
 
       if (col === cols - 1) {
@@ -75,29 +74,50 @@ class DrumMachine extends Component {
   })
   }
 
-  updateRows(add){
-    let rowNum = this.state.rows;
-    if (add) this.setState({rows: rowNum + 1})
-    else if (!add && rowNum > 2) this.setState({rows: rowNum - 1})
+  updateRows(add, newType){
+    if (add && this.state.rows < 10) {
+      this.setState({rows: this.state.rows + 1, types: [...this.state.types, newType]})
+    } else if (!add && this.state.rows > 3) this.setState({rows: this.state.rows - 1})
   }
 
   // creates new icon and svg and appends to DOM
-  addRow(){
-    let newRow = document.createElement('iconRow'),
-        newIcon = document.createElement('object');
-    newIcon.setAttribute('type', 'image/svg+xml');newIcon.setAttribute('data', 'public/style/svgs/play.svg');
-    newRow.appendChild(newIcon);
-    document.getElementById('drumIcons').appendChild(newRow);
+  addRow(e){
+    // let rowNum = this.state.rows;
+    e.preventDefault();
+    let newType = e.target.drumType.value;
 
-    this.updateRows(true);
+    if (this.state.rows < 10) {
+      let newRow = document.createElement('iconRow'),
+          newIcon = document.createElement('object'),
+          newButton = document.createElement('removeButton');
+      newIcon.setAttribute('type', 'image/svg+xml');
+      newIcon.setAttribute('data', 'public/style/svgs/play.svg');
+      newButton.innerHTML = 'X';
+      newButton.setAttribute('id', 'icon' + (++rowNum).toString())
+      newButton.addEventListener('click', (e) => {this.removeRow(e)})
+      newRow.appendChild(newIcon);
+      newRow.appendChild(newButton);
+      document.getElementById('drumIcons').appendChild(newRow);
+    }
+
+    this.updateRows(true, newType);
+  }
+
+  removeRow(e){
+    e.target.removeEventListener('click', (e) => {this.removeRow(e)});
+    e.target.parentNode.remove();
+    this.updateRows(false);
   }
 
   // ref callback on drumIcons container; sets width for all icons
   adjustWidth(element){
     if (element){
+      // sets width of icons to two-thirds of iconRow size, which is inside a flex box
       let iconWidth = (260 / (this.state.rows)) * (2/3);
 
-      [...element.children].forEach(iconRow => iconRow.firstChild.setAttribute('width', iconWidth))
+      [...element.children].forEach(iconRow => {
+        iconRow.firstChild.setAttribute('width', iconWidth);
+      })
     }
   }
 
@@ -106,7 +126,6 @@ class DrumMachine extends Component {
     this.setState({patterns: [...this.state.patterns, drumMatrix.matrix]});
     console.log(this.state.patterns)
   }
-
 
   updateColumns(event){
     // updates columns on the matrix, and calls newLoop, which creates a new loop with a corresponding number of events (steps)
@@ -136,10 +155,9 @@ class DrumMachine extends Component {
 // add selectors for what type of row to add
   render(){
     const { nxDefine } = this.props;
+    const options = ['hihat', 'snare', 'kick', 'tom', 'ride', 'crash', 'shaker', 'rimshot', 'clap']
 
-    // sets width of icons to two-thirds of iconRow size, which is inside a flex box
-    let iconWidth = (260 / this.state.rows) * (2/3);
-    // console.log('iconWidth', iconWidth)
+    // console.log(this.state)
     return (
       <div className='drumContainer'>
         <div className='drumRow'>
@@ -179,10 +197,26 @@ class DrumMachine extends Component {
               value={this.state.columns}
               changeOption={(e) => this.updateColumns(e)}
               options={['4','8','16','24','32']} />
+            <form
+              onSubmit={(e) => this.addRow(e)}
+              id='addRow'
+              >
+              <input
+                type="submit"
+                value="ADD ROW" />
+              <select name="drumType" form="addRow">
+                {options && options.map(type => {
+                  return (
+                    <option
+                    value={type}
+                    key={type.toString()}>{type}</option>
+                  )
+                })}
+              </select>
+            </form>
             <div className='controlButtons'>
               <button onClick={() => this.startSequence()}>START</button>
               <button onClick={() => this.stopSequence()}>STOP</button>
-              <button onClick={()=> this.addRow()}>ADD ROW</button>
             </div>
           </div>
           <div id='accents'>

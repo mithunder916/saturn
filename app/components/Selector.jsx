@@ -12,7 +12,7 @@ export const Selector = props => {
         props.changeOption(e);
         props.dispatcher ? props.dispatcher(e.target.value, e.target.name.slice(-1)) : null;
         }}
-        defaultValue={props.defaultValue}>
+      defaultValue={props.defaultValue}>
       {props.options.map(option => {
         return (
           <option value={option} key={option.toString()}>{option}

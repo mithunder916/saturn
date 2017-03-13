@@ -27,7 +27,6 @@ export const addRow = () => ({
 // })
 
 /* -------------       REDUCER     ------------------- */
-// add patterns? numColumns? rows?
 const initialState = {
   tempo: 90,
   numColumns: 16,

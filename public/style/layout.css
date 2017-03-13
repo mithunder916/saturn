@@ -27,7 +27,8 @@ body {
     border-width: .03em;
     background-color: black;
     font-family: "Arial";
-    font-size: .85em; }
+    font-size: .85em;
+    -webkit-appearance: menulist; }
 
 button {
   background-color: black;
@@ -66,6 +67,22 @@ iconRow {
     margin: auto 0.5em;
     top: 0;
     bottom: 0; }
+  iconRow removeButton {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 80%;
+    height: 25%;
+    width: 10%;
+    text-align: center;
+    font-size: 70%;
+    color: black;
+    transition-property: color;
+    transition-duration: .6s;
+    transition-timing-function: linear; }
+  iconRow removeButton:hover {
+    color: red; }
 
 #drumMatrix {
   display: inline-block;
@@ -73,6 +90,21 @@ iconRow {
 
 #drumControls {
   display: inline-block; }
+
+#addRow {
+  display: inline-block; }
+  #addRow input[type=submit] {
+    background: black;
+    margin-right: 0.5em;
+    font-family: "lazer 84"; }
+  #addRow select {
+    display: inline-block;
+    border-radius: 1em;
+    border-width: .03em;
+    background-color: black;
+    font-family: "Arial";
+    font-size: .85em;
+    -webkit-appearance: menulist; }
 
 #loopControls {
   display: inline-block; }
