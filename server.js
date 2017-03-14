@@ -19,6 +19,6 @@ app.use('/jquery', express.static('node_modules/jquery/dist'));
 app.get('/*', (req, res) => res.sendFile(resolve(__dirname, 'index.html')))
 
 // server listening!
-app.listen(3000, () => {
+app.listen((process.env.PORT || 3000), () => {
   console.log('Saturn is live...', 3000);
 });
