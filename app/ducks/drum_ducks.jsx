@@ -1,5 +1,6 @@
 /* -----------------    ACTIONS     ------------------ */
 const SET_TEMPO = 'SET_TEMPO';
+const SET_VOLUME = 'SET_VOLUME';
 const SET_COLUMNS = 'SET_COLUMNS';
 const ADD_ROW = 'ADD_ROW';
 const SET_TYPE = 'SET_TYPE';
@@ -10,6 +11,11 @@ const SET_TYPE = 'SET_TYPE';
 export const setTempo = tempo => ({
   type: SET_TEMPO,
   tempo
+})
+
+export const setVolume = volume => ({
+  type: SET_VOLUME,
+  volume
 })
 
 export const setColumns = columns => ({
@@ -29,6 +35,7 @@ export const addRow = () => ({
 /* -------------       REDUCER     ------------------- */
 const initialState = {
   tempo: 90,
+  volume: 1,
   numColumns: 16,
   rows: 3,
   types: ['hihat', 'snare', 'kick']
@@ -38,6 +45,8 @@ const drumReducer = (state = initialState, action) => {
   switch (action.type){
     case SET_TEMPO:
         return Object.assign({}, state, {tempo: action.tempo});
+    case SET_VOLUME:
+        return Object.assign({}, state, {volume: action.volume});
     case SET_COLUMNS:
         return Object.assign({}, state, {numColumns: action.columns});
     case ADD_ROW:

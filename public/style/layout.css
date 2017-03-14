@@ -16,7 +16,30 @@
   color: #CC3BA7; }
 
 body {
+  margin: 0;
+  min-height: 100vh;
   background: linear-gradient(to right bottom, #2E005C, #4C2D5C, #483063, #221E47, black); }
+
+#navbar {
+  background-color: black;
+  height: 5vh;
+  display: flex;
+  justify-content: space-between; }
+  #navbar #logoContainer {
+    position: relative;
+    padding-left: 0.5em; }
+  #navbar button {
+    display: inline-block;
+    margin: 0.75em 0.75em 0 0; }
+  #navbar p {
+    margin: 0;
+    display: inline;
+    font-size: 150%;
+    position: absolute;
+    left: 2.5em;
+    top: 0.2em; }
+  #navbar object {
+    width: 5vh; }
 
 .selector {
   display: block;
@@ -36,22 +59,18 @@ button {
 
 .drumContainer {
   color: black;
-  margin: 0 auto;
+  margin: 1em auto 0 auto;
   display: block;
   width: 75%;
-  background-color: #CC3BA7; }
+  background-color: #CC3BA7;
+  border-radius: 1em; }
   .drumContainer span {
     color: black; }
-
-.drumRow {
-  border: solid green;
-  padding: 0.25em 0; }
 
 #iconContainer {
   display: inline-block;
   width: 25%;
   height: 100%;
-  border: solid blue;
   vertical-align: top; }
 
 #drumIcons {
@@ -79,17 +98,25 @@ iconRow {
     font-size: 70%;
     color: black;
     transition-property: color;
-    transition-duration: .6s;
+    transition-duration: .3s;
     transition-timing-function: linear; }
   iconRow removeButton:hover {
     color: red; }
 
-#drumMatrix {
+#drumMatrixContainer {
   display: inline-block;
-  width: 75%; }
+  width: 60%; }
+
+#drumMatrix {
+  display: inline-block; }
 
 #drumControls {
-  display: inline-block; }
+  display: inline-block;
+  width: 15%;
+  vertical-align: top;
+  text-align: center; }
+  #drumControls p {
+    color: black; }
 
 #addRow {
   display: inline-block; }
@@ -107,10 +134,13 @@ iconRow {
     -webkit-appearance: menulist; }
 
 #loopControls {
-  display: inline-block; }
+  display: inline-block;
+  width: 25%;
+  margin-bottom: 0.5em;
+  padding-left: 1em; }
 
 #accents {
-  display: inline-block; }
+  width: 60%; }
 
 .synthHolder {
   margin: 1em auto;

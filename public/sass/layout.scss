@@ -2,6 +2,8 @@ $dev: solid 1px red;
 $panel: black;
 $bright-pink: #CC3BA7;
 $instrument-width: 75%;
+$drumMatrix-width: 60%;
+$drumControls-width: 15%;
 
 @font-face {
   font-family: "lazer 84";
@@ -26,7 +28,39 @@ $instrument-width: 75%;
 
 body {
   // lighter purple: 7C4A96
+  margin: 0;
+  min-height: 100vh;
   background: linear-gradient(to right bottom, #2E005C, #4C2D5C, #483063, #221E47, black);
+}
+
+#navbar {
+  background-color: $panel;
+  height: 5vh;
+  display: flex;
+  justify-content: space-between;
+
+  #logoContainer {
+    position: relative;
+    padding-left: 0.5em;
+  }
+
+  button {
+    display: inline-block;
+    margin: 0.75em 0.75em 0 0;
+  }
+
+  p {
+    margin: 0;
+    display: inline;
+    font-size: 150%;
+    position: absolute;
+    left: 2.5em;
+    top: 0.2em;
+  }
+
+  object{
+    width: 5vh;
+  }
 }
 
 .selector {
@@ -51,25 +85,25 @@ button {
 // Drums
 .drumContainer {
   color: black;
-  // position: relative;
-  margin: 0 auto;
+  margin: 1em auto 0 auto;
   display: block;
   width: $instrument-width;
   background-color: $bright-pink;
+  border-radius: 1em;
+
   span {
     color: black;
   }
 }
 
 .drumRow {
-  border: solid green;
-  padding: 0.25em 0;
+  // padding: 0.25em 0;
 }
 #iconContainer {
   display: inline-block;
   width: 25%;
   height: 100%;
-  border: solid blue;
+  // border: solid blue;
   vertical-align: top;
   // background-color: blue;
 }
@@ -79,11 +113,9 @@ button {
   flex-direction: column;
   // current height of drumMatrix canvas
   height: 260px;
-  // justify-content: center;
 }
 
 iconRow {
-  // border: solid black;
   height: 100%;
   position: relative;
 
@@ -106,9 +138,8 @@ iconRow {
     font-size: 70%;
 
     color: black;
-    // background-color: black;
     transition-property: color;
-    transition-duration: .6s;
+    transition-duration: .3s;
     transition-timing-function: linear;
   }
 
@@ -117,14 +148,24 @@ iconRow {
   }
 }
 
-#drumMatrix {
-  // margin: 0 auto;
+#drumMatrixContainer {
   display: inline-block;
-  width: 75%;
+  width: $drumMatrix-width;
+}
+
+#drumMatrix {
+  display: inline-block;
 }
 
 #drumControls {
   display: inline-block;
+  width: $drumControls-width;
+  vertical-align: top;
+  text-align: center;
+
+  p {
+    color: black;
+  }
 }
 
 #addRow {
@@ -149,14 +190,20 @@ iconRow {
 
 #loopControls {
   display: inline-block;
+  width: 25%;
+  // border: solid $panel;
+  margin-bottom: 0.5em;
+  padding-left: 1em;
+  // text-align: center;
 }
 
 #accents {
-  display: inline-block;
+  // display: inline-block;
+  width: $drumMatrix-width;
 }
-
 // end Drums
 
+// Synth
 .synthHolder {
   margin: 1em auto;
   width: $instrument-width;
@@ -172,8 +219,6 @@ iconRow {
   background-color: black;
   border-radius: 1em;
 }
-
-//keyboard
 #synth {
   margin: 0 auto;
   width: 90%;
@@ -239,6 +284,7 @@ iconRow {
     }
   }
 }
+// end Synth
 
 // Presets
 .presetContainer {

@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import Tone from 'tone';
 import { connect } from 'react-redux';
 import Dial from './Dial.jsx';
-import loop, { realignView } from '../audio_scripts/loop';
-import { setTempo, setColumns, addRow } from '../ducks/drum_ducks.jsx';
+import Slider from './Slider.jsx';
 import { Selector } from './Selector.jsx';
+import loop, { realignView } from '../audio_scripts/loop';
+import { setTempo, setVolume, setColumns, addRow } from '../ducks/drum_ducks.jsx';
+import { adjustToScale } from '../audio_scripts/utils';
 
-let drum, rowNum = 3;
+let drum, drumGain, rowNum = 3;
 
 class DrumMachine extends Component {
   constructor(props){
@@ -30,7 +32,13 @@ class DrumMachine extends Component {
       "snare2" : "samples/snare3.wav",
       "kick0": "samples/kick.wav",
       "kick1" : "samples/kick2.wav",
-      "kick2" : "samples/kick3.wav"
+      "kick2" : "samples/kick3.wav",
+      "clap0": "samples/clap1.wav",
+      "crash0" : "samples/crash1.wav",
+      "ride0" : "samples/ride1.wav",
+      "rimshot0": "samples/rimshot1.wav",
+      "shaker0" : "samples/shaker1.wav",
+      "tom0" : "samples/tom1.wav"
     },
     volume : -48,
     fadeOut : 0.1,
@@ -38,8 +46,11 @@ class DrumMachine extends Component {
 
     Tone.Transport.bpm.value = this.props.drums.tempo;
 
+    drumGain = new Tone.Volume(1);
+    drum.chain(drumGain, Tone.Master);
+
     this.removeRow = this.removeRow.bind(this);
-    // this.deleteRow = this.removeRow.bind(this)
+    this.changeVolume = this.changeVolume.bind(this);
   }
 
   // make local state params for selecting sample and volume
@@ -61,6 +72,10 @@ class DrumMachine extends Component {
     Tone.Transport.bpm.value = tempo;
   }
 
+  changeVolume(volume){
+    drumGain.volume.value = adjustToScale(volume, [-10, 8]);
+  }
+
   newLoop(cols){
     // can't adjust events array inside existing loop. must create a new one?
     // refactor using .set?
@@ -74,10 +89,15 @@ class DrumMachine extends Component {
   })
   }
 
-  updateRows(add, newType){
-    if (add && this.state.rows < 10) {
-      this.setState({rows: this.state.rows + 1, types: [...this.state.types, newType]})
-    } else if (!add && this.state.rows > 3) this.setState({rows: this.state.rows - 1})
+  updateRows(add, type){
+    if (add && this.state.rows < 9) {
+      this.setState({rows: this.state.rows + 1, types: [...this.state.types, type]});
+      // console.log(this.state.types)
+    } else if (!add && this.state.rows > 3) {
+      let newTypes = this.state.types.filter((el, i) => i !== type);
+      // console.log(newTypes);
+      this.setState({rows: this.state.rows - 1, types: newTypes})
+    }
   }
 
   // creates new icon and svg and appends to DOM
@@ -86,12 +106,12 @@ class DrumMachine extends Component {
     e.preventDefault();
     let newType = e.target.drumType.value;
 
-    if (this.state.rows < 10) {
+    if (this.state.rows < 9) {
       let newRow = document.createElement('iconRow'),
           newIcon = document.createElement('object'),
           newButton = document.createElement('removeButton');
       newIcon.setAttribute('type', 'image/svg+xml');
-      newIcon.setAttribute('data', 'public/style/svgs/play.svg');
+      newIcon.setAttribute('data', 'public/style/svgs/' + newType + '.svg');
       newButton.innerHTML = 'X';
       newButton.setAttribute('id', 'icon' + (++rowNum).toString())
       newButton.addEventListener('click', (e) => {this.removeRow(e)})
@@ -103,10 +123,16 @@ class DrumMachine extends Component {
     this.updateRows(true, newType);
   }
 
+// finds index of current row and passes it to updateRows, which uses it to remove the matching type
   removeRow(e){
+    let iconRows = document.getElementById('drumIcons').childNodes,
+        currentRow = e.target.parentNode,
+        typeIndex = [...iconRows].findIndex((row) => row === currentRow);
+
     e.target.removeEventListener('click', (e) => {this.removeRow(e)});
-    e.target.parentNode.remove();
-    this.updateRows(false);
+    currentRow.remove();
+
+    this.updateRows(false, typeIndex);
   }
 
   // ref callback on drumIcons container; sets width for all icons
@@ -168,27 +194,47 @@ class DrumMachine extends Component {
               <iconRow>
                 <object
                 type="image/svg+xml"
-                data="public/style/svgs/stop.svg"
+                data="public/style/svgs/hihat.svg"
                  />
               </iconRow>
               <iconRow>
                 <object
-                type="image/svg+xml" data="public/style/svgs/play.svg"  />
+                type="image/svg+xml" data="public/style/svgs/snare.svg"  />
               </iconRow>
               <iconRow>
                 <object
-                type="image/svg+xml" data="public/style/svgs/play.svg"
+                type="image/svg+xml" data="public/style/svgs/kick.svg"
                  />
               </iconRow>
             </div>
           </div>
-          <canvas
-            data-type="matrix"
-            id="drumMatrix"
-            height="260"
-            width="600"
-            ref={(canvas) => {nxDefine(canvas)}}>
-          </canvas>
+          <div id='drumMatrixContainer'>
+            <canvas
+              data-type="matrix"
+              id="drumMatrix"
+              height="260"
+              width="600"
+              ref={(canvas) => {nxDefine(canvas)}}>
+            </canvas>
+          </div>
+          <div id='drumControls'>
+            <p>TEMPO:</p>
+            <Dial nxDefine={nxDefine}
+                  width='60'
+                  changeRouter={this.changeTempo}
+                  dispatcher={this.props.setTempo}
+                  range={['60', '200']}
+                  args={[]}
+                  id='tempoMod'
+                  />
+            <p>VOL:</p>
+            <Slider nxDefine={nxDefine}
+                    args={['volume']}
+                    range={[0, 1]}
+                    changeRouter={this.changeVolume}
+                    dispatcher={this.props.setVolume}
+                    id='drumVolume' />
+          </div>
         </div>
         <div className='drumRow'>
           <div id='loopControls'>
@@ -196,7 +242,7 @@ class DrumMachine extends Component {
               name='Beats'
               value={this.state.columns}
               changeOption={(e) => this.updateColumns(e)}
-              options={['4','8','16','24','32']} />
+              options={['4','8','12','16','24','32']} />
             <form
               onSubmit={(e) => this.addRow(e)}
               id='addRow'
@@ -223,16 +269,6 @@ class DrumMachine extends Component {
 
           </div>
         </div>
-        <div id='drumControls'>
-            <Dial nxDefine={nxDefine}
-                  width='60'
-                  changeRouter={this.changeTempo}
-                  dispatcher={this.props.setTempo}
-                  range={['60', '200']}
-                  args={[]}
-                  id='tempoMod'
-                  />
-        </div>
       </div>
     )
   }
@@ -243,7 +279,8 @@ class DrumMachine extends Component {
 /* REDUX CONTAINER */
 const mapStateToProps = ({ drums }) => ({ drums });
 const mapDispatchToProps = dispatch => ({
-  setTempo: tempo => dispatch(setTempo(tempo))
+  setTempo: tempo => dispatch(setTempo(tempo)),
+  setVolume: volume => dispatch(setVolume(volume))
  })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DrumMachine);

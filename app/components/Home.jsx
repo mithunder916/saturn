@@ -7,6 +7,7 @@ import Synth from './Synth.jsx';
 import DrumMachine from './DrumMachine.jsx';
 import { MyRecorder } from './Recorder.jsx';
 import Login from './Login.jsx';
+import Navbar from './Navbar.jsx';
 import { midiFunctionality } from '../audio_scripts/midi';
 
 class Home extends Component {
@@ -29,13 +30,17 @@ class Home extends Component {
   nxLoad(){
     nx.onload = function() {
       // console.log('inside nx.onload', drumMatrix)
+      nx.colorize('#24D5FF')
+      nx.colorize('fill', '#222222')
       oscVolume.setNumberOfSliders(3)
       oscVolume.init()
       drumMatrix.col = 16;
       drumMatrix.row = 3;
       drumMatrix.colors.accent = "#3AFFCD";
+      drumMatrix.colors.fill = "#DDDCED";
       drumMatrix.init()
       synth.octaves = 2;
+      synth.colors.fill = "#DDDCED";
       synth.init()
     }
   }
@@ -56,7 +61,7 @@ class Home extends Component {
 
     return (
       <div>
-        <Login />
+        <Navbar />
         <DrumMachine nxDefine={this.nxDefine}/>
         <Synth nxDefine={this.nxDefine} />
         <MyRecorder />
