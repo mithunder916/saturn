@@ -59,6 +59,7 @@ class DrumMachine extends Component {
     let column = drumMatrix.matrix[col];
     for (let i = 0; i < columns; i++) {
       // modify to include sample select and accents
+      console.log('TYPEs', types)
       column.forEach((box, i) => {
         if (box === 1){
           drum.start(types[i] + '0', time, 0, '16n', 0, 5);
@@ -183,7 +184,7 @@ class DrumMachine extends Component {
     const { nxDefine } = this.props;
     const options = ['hihat', 'snare', 'kick', 'tom', 'ride', 'crash', 'shaker', 'rimshot', 'clap']
 
-    // console.log(this.state)
+    console.log(drum)
     return (
       <div className='drumContainer'>
         <div className='drumRow'>
