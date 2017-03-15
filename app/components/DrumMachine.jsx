@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Dial from './Dial.jsx';
 import Slider from './Slider.jsx';
 import { Selector } from './Selector.jsx';
-import loop, { realignView } from '../audio_scripts/loop';
+import { realignView } from '../audio_scripts/loop';
 import { setTempo, setVolume, setColumns, addRow } from '../ducks/drum_ducks.jsx';
 import { adjustToScale } from '../audio_scripts/utils';
 
@@ -14,11 +14,21 @@ class DrumMachine extends Component {
   constructor(props){
     super(props)
 
+    const { numColumns, rows, types } = props.drums;
+
+    let loop = new Tone.Sequence((time, col) => {
+      this.triggerDrums(drumMatrix, time, col);
+
+      if (col === numColumns - 1) {
+          realignView(drumMatrix);
+      }
+    }, [...Array(Number(numColumns)).keys()], "16n");
+
     this.state = {
-      columns: props.drums.numColumns,
+      columns: numColumns,
       loop: loop,
-      rows: props.drums.rows,
-      types: props.drums.types,
+      rows: rows,
+      types: types,
       patterns: []
     }
 
@@ -59,7 +69,7 @@ class DrumMachine extends Component {
     let column = drumMatrix.matrix[col];
     for (let i = 0; i < columns; i++) {
       // modify to include sample select and accents
-      console.log('TYPEs', types)
+      // console.log('TYPEs', types)
       column.forEach((box, i) => {
         if (box === 1){
           drum.start(types[i] + '0', time, 0, '16n', 0, 5);
@@ -70,7 +80,7 @@ class DrumMachine extends Component {
   }
 
   changeTempo(tempo){
-    Tone.Transport.bpm.value = tempo;
+    Tone.Transport.bpm.value = (tempo !== 0 ?  tempo : 140);
   }
 
   changeVolume(volume){
@@ -78,7 +88,6 @@ class DrumMachine extends Component {
   }
 
   newLoop(cols){
-    // can't adjust events array inside existing loop. must create a new one?
     // refactor using .set?
     this.setState({loop: new Tone.Sequence((time, col) => {
       this.triggerDrums(drumMatrix, time, col);
@@ -184,7 +193,7 @@ class DrumMachine extends Component {
     const { nxDefine } = this.props;
     const options = ['hihat', 'snare', 'kick', 'tom', 'ride', 'crash', 'shaker', 'rimshot', 'clap']
 
-    console.log(drum)
+    // console.log(drum)
     return (
       <div className='drumContainer'>
         <div className='drumRow'>
