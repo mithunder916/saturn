@@ -183,9 +183,9 @@ class DrumMachine extends Component {
 
   stopSequence(){
     Tone.Transport.stop();
+    drumMatrix.stop();
     // without this next line, multiple loops will trigger when the loop starts again; how to delete the old loops
     this.state.loop.stop();
-    drumMatrix.stop();
   }
 
 // add selectors for what type of row to add
