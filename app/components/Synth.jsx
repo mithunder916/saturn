@@ -316,7 +316,9 @@ class Synth extends Component {
   attachFocus(element){
     if (element){
       element.setAttribute("tabIndex", '1');
-      element.focus()
+      setInterval(() => {
+        element.focus();
+      }, 5000)
     }
   }
 
@@ -424,6 +426,9 @@ class Synth extends Component {
             updateSynths={this.updateSynths}
             changePreset={this.props.changePreset}
             />
+        <div className="help-tip">
+	        <p>Use your keyboard to play the synth. The QWERTY row plays the white keys, while the numbers above it control the black keys. Or plug in a MIDI USB controller and reload the page!</p>
+        </div>
       </div>
     )
   }
