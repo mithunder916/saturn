@@ -1,8 +1,8 @@
 node_modules
 npm-debug.log
 .DS_Store
-public/bundle.js
-public/bundle.js.map
 samples
 app/firebase.jsx
+public/bundle.js
+public/bundle.js.map
 .babelrc

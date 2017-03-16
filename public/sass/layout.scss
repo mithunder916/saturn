@@ -89,6 +89,7 @@ button {
   display: block;
   width: $instrument-width;
   background-color: $bright-pink;
+  box-shadow: -.5em .5em 0 black;
   border-radius: 1em;
 
   span {
@@ -212,12 +213,13 @@ iconRow {
 .synthContainer {
   display: inline-block;
   width: 60%;
+  box-shadow: -.3em .3em 0 #1B2E2E;
   // currently determines how far right the keyboard sits
   // margin-left: 8em;
   // margin: 0 auto;
   vertical-align: top;
   background-color: black;
-  border-radius: 1em;
+  border-radius: 0 0 1em 1em;
 }
 #synth {
   margin: 0 auto;
@@ -292,6 +294,7 @@ iconRow {
   display: inline-block;
   border-radius: 1em;
   margin: 0 1em;
+  box-shadow: -.3em .3em 0 #1B2E2E;
 
   p {
     margin: 0.25em 0;

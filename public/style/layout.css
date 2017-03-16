@@ -63,6 +63,7 @@ button {
   display: block;
   width: 75%;
   background-color: #CC3BA7;
+  box-shadow: -.5em .5em 0 black;
   border-radius: 1em; }
   .drumContainer span {
     color: black; }
@@ -149,9 +150,10 @@ iconRow {
 .synthContainer {
   display: inline-block;
   width: 60%;
+  box-shadow: -.3em .3em 0 #1B2E2E;
   vertical-align: top;
   background-color: black;
-  border-radius: 1em; }
+  border-radius: 0 0 1em 1em; }
 
 #synth {
   margin: 0 auto;
@@ -200,7 +202,8 @@ iconRow {
   background: black;
   display: inline-block;
   border-radius: 1em;
-  margin: 0 1em; }
+  margin: 0 1em;
+  box-shadow: -.3em .3em 0 #1B2E2E; }
   .presetContainer p {
     margin: 0.25em 0;
     text-align: center; }
