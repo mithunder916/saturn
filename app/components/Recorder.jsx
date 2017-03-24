@@ -6,7 +6,7 @@ let mediaRecorder, recorder;
 export class MyRecorder extends Component {
   startRecording(){
     recorder && recorder.record();
-    console.log("recorder started");
+    // console.log("recorder started");
   }
 
   stopRecording(){
@@ -24,6 +24,8 @@ export class MyRecorder extends Component {
       audio.src = url
 
       newTrack = blob;
+
+      //Tone.Master.context
     })
 
   }
@@ -36,11 +38,14 @@ export class MyRecorder extends Component {
   }
 
   render(){
-    // recorder && console.log(recorder);
+    const { nxDefine } = this.props;
     return (
-      <div>
+      <div id='recordingContainer'>
         <button id='recordButton' onClick={()=> this.startRecording()}>Record</button>
         <button id='stopRecording' onClick={()=> this.stopRecording()}>Stop</button>
+        {/*<canvas
+          data-type='waveform'
+          ref={(canvas) => {nxDefine(canvas)}} />*/}
       </div>
     )
   }

@@ -5,8 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "mocha --require ./tests/setup.js ./tests/**/*.js --compilers js:babel-register",
-    "start": "webpack -w --progress & node server.js",
-    "dev": "webpack -w --progress & nodemon server.js",
+    "start": "webpack -w --progress && node server.js",
+    "dev": "webpack && nodemon server.js",
     "build-css": "node-sass -w public/sass/layout.scss -o public/style"
   },
   "author": "Mithun Selvaratnam",
