@@ -64,7 +64,7 @@ class Home extends Component {
         <Navbar />
         <DrumMachine nxDefine={this.nxDefine}/>
         <Synth nxDefine={this.nxDefine} />
-        <MyRecorder />
+        <MyRecorder nxDefine={this.nxDefine} />
       </div>
     )
   }
