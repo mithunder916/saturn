@@ -9,6 +9,7 @@ import { MyRecorder } from './Recorder.jsx';
 import Login from './Login.jsx';
 import Navbar from './Navbar.jsx';
 import { midiFunctionality } from '../audio_scripts/midi';
+import { playNote, releaseNote } from '../audio_scripts/synth';
 
 class Home extends Component {
   constructor(props) {
@@ -20,7 +21,6 @@ class Home extends Component {
 
   // called by refs' callbacks: sets nx attributes to DOM elements
   nxDefine(element){
-    // console.log('nxDefine called on:', element)
     // when re-rendering, the ref callback gets called once with null before getting called with the canvas element
     if (element){
       element.setAttribute("nx", element.dataset.type);
@@ -49,10 +49,9 @@ class Home extends Component {
     this.nxLoad();
     // allows MIDI keyboard functionality
     midiFunctionality();
-  }
-
-  componentDidUpdate(){
-    // drumMatrix.init()
+    // makes keyboard playable with computer keyboard
+    window.addEventListener('keydown', playNote);
+    window.addEventListener('keyup', releaseNote);
   }
 
   render() {
@@ -63,7 +62,9 @@ class Home extends Component {
       <div>
         <Navbar />
         <DrumMachine nxDefine={this.nxDefine}/>
-        <Synth nxDefine={this.nxDefine} />
+        <Synth
+          nxDefine={this.nxDefine}
+         />
         <MyRecorder />
       </div>
     )
