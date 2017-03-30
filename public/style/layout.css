@@ -75,6 +75,10 @@
   100% {
     opacity: 100%; } }
 
+#recorderContainer {
+  width: 75%;
+  margin: 0 auto; }
+
 @font-face {
   font-family: "lazer 84";
   src: url("fonts/Lazer84.ttf") format("truetype"); }

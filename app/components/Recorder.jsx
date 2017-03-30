@@ -46,7 +46,7 @@ export class MyRecorder extends Component {
   render(){
     // recorder && console.log(recorder);
     return (
-      <div>
+      <div id='recorderContainer'>
         <button id='recordButton' onClick={()=> this.startRecording()}>Record</button>
         <button id='stopRecording' onClick={()=> this.stopRecording()}>Stop</button>
       </div>

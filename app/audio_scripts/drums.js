@@ -5,15 +5,15 @@ Tone.Transport.bpm.value = 90;
 
 export let drums = new Tone.MultiPlayer({
     urls : {
-      "hihat0" : "../samples/hihat.wav",
-      "hihat1" : "../samples/hihat2.wav",
-      "hihat2" : "../samples/hihat3.wav",
-      "snare0": "../samples/snare.wav",
-      "snare1" : "../samples/snare2.wav",
-      "snare2" : "../samples/snare3.wav",
-      "kick0": "../samples/kick.wav",
-      "kick1" : "../samples/kick2.wav",
-      "kick2" : "../samples/kick3.wav"
+      "hihat0" : "samples/hihat.wav",
+      "hihat1" : "samples/hihat2.wav",
+      "hihat2" : "samples/hihat3.wav",
+      "snare0": "samples/snare.wav",
+      "snare1" : "samples/snare2.wav",
+      "snare2" : "samples/snare3.wav",
+      "kick0": "samples/kick.wav",
+      "kick1" : "samples/kick2.wav",
+      "kick2" : "samples/kick3.wav"
     },
     volume : -48,
     fadeOut : 0.1,
