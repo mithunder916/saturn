@@ -121,31 +121,3 @@ export const synthReducer = (state = initialState, action) => {
       return state;
   }
 }
-// export const synthReducer = (state = initialState, action) => {
-//   let oscillator = `oscillator${action.oscNum}`;
-//   // this variable must be accessed using bracket notation in order to be interpreted
-//   switch (action.type) {
-//     case SET_WAVEFORM:
-//       return Object.assign({}, state, {[oscillator]:
-//         Object.assign({}, state[oscillator], {shape: action.shape})
-//       });
-//     case SET_ATTACK:
-//       return Object.assign({}, state, {[oscillator]:
-//         Object.assign({}, state[oscillator], {attack: action.attack})
-//       });
-//     case SET_DECAY:
-//       return Object.assign({}, state, {[oscillator]:
-//         Object.assign({}, state[oscillator], {decay: action.decay})
-//       });
-//     case SET_SUSTAIN:
-//       return Object.assign({}, state, {[oscillator]:
-//         Object.assign({}, state[oscillator], {sustain: action.sustain})
-//       });
-//     case SET_RELEASE:
-//       return Object.assign({}, state, {[oscillator]:
-//           Object.assign({}, state[oscillator], {release: action.release})
-//         });
-//     default:
-//       return state;
-//   }
-// }

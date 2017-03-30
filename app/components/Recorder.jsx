@@ -9,16 +9,24 @@ export class MyRecorder extends Component {
     // console.log("recorder started");
   }
 
+  // refactor this into a component rather than directly manipulating the DOM
   stopRecording(){
     recorder && recorder.stop();
     let newTrack;
     recorder.exportWAV(function(blob){
-      let url = window.URL.createObjectURL(blob);
-      let audio = document.createElement('audio')
-      var clipContainer = document.createElement('article');
+      let url = window.URL.createObjectURL(blob),
+          audio = document.createElement('audio'),
+          clipContainer = document.createElement('article'),
+          downloadLink = document.createElement('a')
 
-      audio.setAttribute('controls', '');
+
+      audio.setAttribute('controls', 'download');
+      downloadLink.setAttribute('href', url)
+      downloadLink.setAttribute('download', 'saturnbeat')
+      downloadLink.innerHTML = 'Download'
+
       clipContainer.appendChild(audio)
+      clipContainer.appendChild(downloadLink);
       document.body.appendChild(clipContainer);
 
       audio.src = url
@@ -40,7 +48,7 @@ export class MyRecorder extends Component {
   render(){
     const { nxDefine } = this.props;
     return (
-      <div id='recordingContainer'>
+      <div id='recorderContainer'>
         <button id='recordButton' onClick={()=> this.startRecording()}>Record</button>
         <button id='stopRecording' onClick={()=> this.stopRecording()}>Stop</button>
         {/*<canvas

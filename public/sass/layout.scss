@@ -1,12 +1,14 @@
-@import 'help.scss';
-@import url('https://fonts.googleapis.com/css?family=Space+Mono');
-
 $dev: solid 1px red;
 $panel: black;
 $bright-pink: #CC3BA7;
 $instrument-width: 75%;
 $drumMatrix-width: 60%;
 $drumControls-width: 15%;
+
+@import 'help.scss';
+@import 'recorder.scss';
+@import url('https://fonts.googleapis.com/css?family=Space+Mono');
+
 
 @font-face {
   font-family: "lazer 84";
