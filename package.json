@@ -5,7 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "nodemon run_karma_server.js",
-    "start": "webpack && node server.js",
+    "start": "webpack & node server.js",
     "dev": "webpack -w --progress & nodemon server.js",
     "build-css": "node-sass -w public/sass/layout.scss -o public/style"
   },

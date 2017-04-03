@@ -30,7 +30,7 @@ class Synth extends Component {
         'sustain': synth.sustain,
         'release': synth.release
       },
-      "volume": -60
+      "volume": -54
     });
 
     polySynth2 = new Tone.PolySynth(6, Tone.Synth, {
@@ -44,7 +44,7 @@ class Synth extends Component {
         'sustain': synth.sustain,
         'release': synth.release
       },
-      "volume": -60
+      "volume": -54
     });
 
     polySynth3 = new Tone.PolySynth(6, Tone.Synth, {
@@ -58,7 +58,7 @@ class Synth extends Component {
         'sustain': synth.sustain,
         'release': synth.release
       },
-      "volume": -60
+      "volume": -54
     });
 
     polySynths = [polySynth, polySynth2, polySynth3]
